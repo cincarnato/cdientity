@@ -1,6 +1,6 @@
 <?php
 
-namespace DBAL\Entity;
+namespace CdiEntity\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

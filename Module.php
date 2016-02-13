@@ -1,6 +1,6 @@
 <?php
 
-namespace CdiDataGrid;
+namespace CdiEntity;
 
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
