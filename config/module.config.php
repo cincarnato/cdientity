@@ -6,7 +6,7 @@ return array(
       'doctrine' => array(
         'driver' => array(
             // overriding zfc-user-doctrine-orm's config
-            'zfcuser_entity' => array(
+            'cdientity_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'paths' => __DIR__ . '/../src/CdiEntity/Entity',
             ),
