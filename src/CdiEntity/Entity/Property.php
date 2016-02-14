@@ -57,8 +57,8 @@ class Property extends \CdiCommons\Entity\BaseEntity{
     
      /**
      * @var string
-     * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"Type:"})
+       * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Options({"label":"Type:","value_options":{"string","integer"}})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="type")
      */
