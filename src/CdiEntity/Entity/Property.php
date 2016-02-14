@@ -27,7 +27,7 @@ class Property extends \CdiCommons\Entity\BaseEntity{
     /**
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Options({
-     * "label":"Cola:",
+     * "label":"Entity:",
      * "empty_option": "",
      * "target_class":"CdiEntity\Entity\Entity",
      * "property": "id"})
@@ -75,12 +75,18 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      */
     protected $length;
     
- /**
+   /**
+     * @var string
+     * @Annotation\Type("Zend\Form\Element\CheckBox")
+     * @Annotation\Options({"label":"Unique:"})
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_unique")
      */
     protected $beUnique;
     
      /**
+     * @var string
+     * @Annotation\Type("Zend\Form\Element\CheckBox")
+     * @Annotation\Options({"label":"Nulleable:"})
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_nullable")
      */
     protected $beNullable;
