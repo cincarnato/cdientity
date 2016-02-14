@@ -29,12 +29,12 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      * @Annotation\Options({
      * "label":"Cola:",
      * "empty_option": "",
-     * "target_class":"CdiEntity\Entity\Centity",
+     * "target_class":"CdiEntity\Entity\Entity",
      * "property": "id"})
-     * @ORM\ManyToOne(targetEntity="CdiEntity\Entity\Centity")
-     * @ORM\JoinColumn(name="conversation_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="CdiEntity\Entity\Entity")
+     * @ORM\JoinColumn(name="entity_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $centity;
+    protected $entity;
     
     /**
      * @var string
@@ -76,22 +76,83 @@ class Property extends \CdiCommons\Entity\BaseEntity{
     protected $length;
     
  /**
-     * @ORM\Column(type="boolean", unique=false, nullable=true)
+     * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_unique")
      */
-    protected $unique;
+    protected $beUnique;
     
      /**
-     * @ORM\Column(type="boolean", unique=false, nullable=true)
+     * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_nullable")
      */
-    protected $nullable;
+    protected $beNullable;
     
     public function __construct() {
  
     }
+    function getId() {
+        return $this->id;
+    }
 
-   
+    function getEntity() {
+        return $this->entity;
+    }
 
-    
+    function getName() {
+        return $this->name;
+    }
+
+    function getTblName() {
+        return $this->tblName;
+    }
+
+    function getType() {
+        return $this->type;
+    }
+
+    function getLength() {
+        return $this->length;
+    }
+
+    function getBeUnique() {
+        return $this->beUnique;
+    }
+
+    function getBeNullable() {
+        return $this->beNullable;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setEntity($entity) {
+        $this->entity = $entity;
+    }
+
+    function setName($name) {
+        $this->name = $name;
+    }
+
+    function setTblName($tblName) {
+        $this->tblName = $tblName;
+    }
+
+    function setType($type) {
+        $this->type = $type;
+    }
+
+    function setLength($length) {
+        $this->length = $length;
+    }
+
+    function setBeUnique($beUnique) {
+        $this->beUnique = $beUnique;
+    }
+
+    function setBeNullable($beNullable) {
+        $this->beNullable = $beNullable;
+    }
+
+        
             
 
    public function __toString() {
