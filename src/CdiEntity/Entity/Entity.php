@@ -55,7 +55,7 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
      /**
      * @var string
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"Path:"})
+     * @Annotation\Options({"label":"Path & File:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="path")
      */
