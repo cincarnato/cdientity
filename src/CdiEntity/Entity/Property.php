@@ -30,7 +30,7 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      * "label":"Entity:",
      * "empty_option": "",
      * "target_class":"CdiEntity\Entity\Entity",
-     * "property": "id"})
+     * "property": "name"})
      * @ORM\ManyToOne(targetEntity="CdiEntity\Entity\Entity")
      * @ORM\JoinColumn(name="entity_id", referencedColumnName="id", onDelete="CASCADE")
      */
