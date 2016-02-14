@@ -70,7 +70,7 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      * @var string
      * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"Length:"})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":11}})
+     * @Annotation\Validator({"name":"Between", "options":{"min":1, "max":11}})
      * @ORM\Column(type="integer", length=11, unique=false, nullable=true, name="length")
      */
     protected $length;
