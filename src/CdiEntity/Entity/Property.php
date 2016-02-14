@@ -8,11 +8,11 @@ use Zend\Form\Annotation;
 /**
  *
  * @ORM\Entity
- * @ORM\Table(name="cproperty")
+ * @ORM\Table(name="cdi_property")
  *
  * @author Cristian Incarnato
  */
-class Cproperty extends \CdiCommons\Entity\BaseEntity{
+class Property extends \CdiCommons\Entity\BaseEntity{
     
        /**
      * @var int
