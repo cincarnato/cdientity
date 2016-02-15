@@ -119,7 +119,7 @@ class UpdateEntity implements ServiceManagerAwareInterface {
      * @param ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager(Zend\ServiceManager\ServiceManager $serviceManager) {
+    public function setServiceManager(\Zend\ServiceManager\ServiceManager $serviceManager) {
         $this->serviceManager = $serviceManager;
         return $this;
     }
