@@ -12,7 +12,7 @@ namespace CdiEntity\Service;
  *
  * @package Paquete
  */
-class updateEntity implements ServiceManagerAwareInterface {
+class UpdateEntity implements ServiceManagerAwareInterface {
 
     public function applyChanges(CdiEntity\Entity\Entity $entity) {
 
