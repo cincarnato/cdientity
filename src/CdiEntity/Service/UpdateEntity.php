@@ -1,7 +1,7 @@
 <?php
 
 namespace CdiEntity\Service;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
+//use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 /**
  * TITLE
@@ -12,7 +12,7 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
  *
  * @package Paquete
  */
-class UpdateEntity implements ServiceManagerAwareInterface {
+class UpdateEntity  {
 
     public function applyChanges(CdiEntity\Entity\Entity $entity) {
 
