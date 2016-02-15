@@ -2,6 +2,7 @@
 
 return array(
     'cdientity_options' => array(
+        'script_update_schema' => ''
     ),
       'doctrine' => array(
         'driver' => array(
