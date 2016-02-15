@@ -20,7 +20,7 @@ class UpdateEntity implements ServiceManagerAwareInterface {
      */
     protected $serviceManager;
 
-    public function applyChanges(\CdiEntity\Entity\Entity $entity) {
+    public function applyChanges(\CdiEntity\Entity\Entity $entity,$updateSchema) {
 
         if ($entity->getProperties()->count()) {
             $newcontent = '//cdientitystart';
