@@ -58,7 +58,7 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      /**
      * @var string
        * @Annotation\Type("Zend\Form\Element\Select")
-     * @Annotation\Options({"label":"Type:","value_options":{"string","integer"}})
+     * @Annotation\Options({"label":"Type:","value_options":{"string","text","integer","boolean"}})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="type")
      */
@@ -90,6 +90,10 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_nullable")
      */
     protected $beNullable;
+    
+    
+
+    
     
     public function __construct() {
  

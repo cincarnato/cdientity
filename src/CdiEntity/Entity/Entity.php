@@ -71,10 +71,18 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
     protected $extends;
 
     
+    
+    /**
+     * @var 
+     * @ORM\OneToMany(targetEntity="CdiEntity\Entity\Property", mappedBy="entity")
+     */
+    protected $properties;
+
+    
 
     
     public function __construct() {
- 
+ $this->properties = new ArrayCollection();
     }
 
     function getId() {
@@ -125,7 +133,15 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
         $this->extends = $extends;
     }
 
-                
+    function getProperties() {
+        return $this->properties;
+    }
+
+    function setProperties($properties) {
+        $this->properties = $properties;
+    }
+
+                    
 
    public function __toString() {
         return $this->name;
