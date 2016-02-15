@@ -88,7 +88,7 @@ class UpdateEntity implements ServiceManagerAwareInterface {
             file_put_contents($path_to_file, $file_contents);
 
             if ($updateSchema) {
-                $cdientity_options = $this->getServiceLocator()->get('cdientity_options');
+                $cdientity_options = $this->getServiceManager()->get('cdientity_options');
 
                 return exec($cdientity_options->getScriptUpdateSchema());
             }
