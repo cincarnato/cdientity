@@ -13,7 +13,8 @@ return array(
     ),
     'factories' => array(
         'cdientity_options' => function (ServiceLocatorInterface $sm) {
-            return null;
+            $config = $sm->get('Config');
+            return new CdiEntity\Options\CdiEntityOptions(isset($config['cdientity_options']) ? $config['cdientity_options'] : array());
         },
     ));
         
