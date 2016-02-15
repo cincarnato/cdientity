@@ -26,7 +26,7 @@ return array(
     
     'router' => array(
         'routes' => array(
-            'cdiuser' => array(
+            'cdientity' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
                 'options' => array(
