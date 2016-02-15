@@ -14,7 +14,7 @@ namespace CdiEntity\Service;
  */
 class UpdateEntity  {
 
-    public function applyChanges(CdiEntity\Entity\Entity $entity) {
+    public function applyChanges(\CdiEntity\Entity\Entity $entity) {
 
         if ($entity->getProperties()->count()) {
             $newcontent = "//cdientitystart";
