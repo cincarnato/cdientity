@@ -22,13 +22,6 @@ return array(
             'usersession' => 'CdiUser\Controller\UserSessionController',
         ),
     ),
-     'service_manager' => array(
-        'invokables' => array(
-        ),
-        'factories' => array(
-            'cdientity_update_entity' => 'CdiEntity\Service\UpdateEntity',
-        ),
-    ),
     
     'router' => array(
         'routes' => array(
