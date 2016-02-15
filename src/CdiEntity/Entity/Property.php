@@ -5,6 +5,7 @@ namespace CdiEntity\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation;
+
 /**
  *
  * @ORM\Entity
@@ -12,9 +13,9 @@ use Zend\Form\Annotation;
  *
  * @author Cristian Incarnato
  */
-class Property extends \CdiCommons\Entity\BaseEntity{
-    
-       /**
+class Property extends \CdiCommons\Entity\BaseEntity {
+
+    /**
      * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -22,8 +23,7 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      * @Annotation\Type("Zend\Form\Element\Hidden")
      */
     protected $id;
-    
-  
+
     /**
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Options({
@@ -35,69 +35,62 @@ class Property extends \CdiCommons\Entity\BaseEntity{
      * @ORM\JoinColumn(name="entity_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $entity;
-    
+
     /**
      * @var string
-     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"Name:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="name")
+     * @ORM\Column(type="string", length=100, unique=true, nullable=true, name="name")
      */
     protected $name;
-    
-    
+
     /**
      * @var string
-     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"TblName:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="tbl_name")
+     * @ORM\Column(type="string", length=100, unique=true, nullable=true, name="tbl_name")
      */
     protected $tblName;
-    
-     /**
+
+    /**
      * @var string
-       * @Annotation\Type("Zend\Form\Element\Select")
-     * @Annotation\Options({"label":"Type:","value_options":{"string","text","integer","boolean"}})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="type")
+     * @Annotation\Options({"label":"Type:"})
+     * @Annotation\Attributes({"type":"select","options":{"string":"string","text":"text","integer":"integer","boolean":"boolean"}})
+     * @Annotation\Type("Zend\Form\Element\Select")
      */
     protected $type;
-    
-    
-    
-      /**
+
+    /**
      * @var string
-     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"Length:"})
      * @Annotation\Validator({"name":"Between", "options":{"min":1, "max":11}})
      * @ORM\Column(type="integer", length=11, unique=false, nullable=true, name="length")
      */
     protected $length;
-    
-   /**
+
+    /**
      * @var string
-     * @Annotation\Type("Zend\Form\Element\CheckBox")
-     * @Annotation\Options({"label":"Unique:"})
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_unique")
+     * @Annotation\Type("Zend\Form\Element\Checkbox")
+     *  @Annotation\Attributes({"type":"checkbox"})
+     * @Annotation\Options({"label":"Unique:"})
      */
     protected $beUnique;
-    
-     /**
+
+    /**
      * @var string
-     * @Annotation\Type("Zend\Form\Element\CheckBox")
-     * @Annotation\Options({"label":"Nulleable:"})
+     * @Annotation\Type("Zend\Form\Element\Checkbox") 
+     * @Annotation\Attributes({"type":"checkbox", "value": "1"})
+     * @Annotation\Options({"label":"Nulleable:", "value": "1"})
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_nullable")
      */
-    protected $beNullable;
-    
-    
+    protected $beNullable = true;
 
-    
-    
     public function __construct() {
- 
+        
     }
+
     function getId() {
         return $this->id;
     }
@@ -162,16 +155,8 @@ class Property extends \CdiCommons\Entity\BaseEntity{
         $this->beNullable = $beNullable;
     }
 
-        
-            
-
-   public function __toString() {
+    public function __toString() {
         return $this->name;
     }
-
-
-
-
-
 
 }
