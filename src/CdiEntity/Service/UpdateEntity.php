@@ -1,7 +1,7 @@
 <?php
 
 namespace CdiEntity\Service;
-
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 /**
  * TITLE
