@@ -38,24 +38,18 @@ class Property extends \CdiCommons\Entity\BaseEntity {
 
     /**
      * @var string
-     * @Annotation\Options({"label":"Name:"})
+     * @Annotation\Options({"label":"Name:", "description": "Solo se admiten nombres alfanumericos, sin espacios"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
+     * @Annotation\Validator({"name":"Zend\Validator\Regex", "options":{"patern": "/^[a-z]*$/"}})
+     * @Annotation\Filter({"name": "Zend\Filter\StringTrim"})
      * @ORM\Column(type="string", length=100, unique=true, nullable=true, name="name")
      */
     protected $name;
 
     /**
      * @var string
-     * @Annotation\Options({"label":"TblName:"})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="string", length=100, unique=true, nullable=true, name="tbl_name")
-     */
-    protected $tblName;
-
-    /**
-     * @var string
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="type")
-     * @Annotation\Options({"label":"Type:"})
+     * @Annotation\Options({"label":"Type:", "description": "string: Campo de tipo texto limitado|integer: campo numerico|text: campo de texto variable|boolean: true o false"})
      * @Annotation\Attributes({"type":"select","options":{"string":"string","text":"text","integer":"integer","boolean":"boolean"}})
      * @Annotation\Type("Zend\Form\Element\Select")
      */
@@ -63,7 +57,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
 
     /**
      * @var string
-     * @Annotation\Options({"label":"Length:"})
+     * @Annotation\Options({"label":"Length:", "description": "Cantidad de caracteres del campo"})
      * @Annotation\Validator({"name":"Between", "options":{"min":1, "max":11}})
      * @ORM\Column(type="integer", length=11, unique=false, nullable=true, name="length")
      */
