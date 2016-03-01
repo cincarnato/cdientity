@@ -20,7 +20,7 @@ class UpdateEntity implements ServiceManagerAwareInterface {
      */
     protected $serviceManager;
 
-    public function applyChanges(\CdiEntity\Entity\Entity $entity,$updateSchema) {
+    public function applyChanges(\CdiEntity\Entity\Entity $entity, $updateSchema) {
 
         if ($entity->getProperties()->count()) {
             $newcontent = '//cdientitystart';
@@ -39,19 +39,20 @@ class UpdateEntity implements ServiceManagerAwareInterface {
                 switch ($property->getType()) {
                     case "string":
                         $newcontent .= '* @Annotation\Attributes({"type":"text"})' . PHP_EOL;
-                        $newcontent .= '* @ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $property->getTblName() . '")/*' . PHP_EOL;
+                        $newcontent .= '* @ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")/*' . PHP_EOL;
                         break;
                     case "integer":
                         $newcontent .= '* @Annotation\Attributes({"type":"text"})' . PHP_EOL;
-                        $newcontent .= '* @ORM\Column(type="integer", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $property->getTblName() . '")/*' . PHP_EOL;
+                        $newcontent .= '* @ORM\Column(type="integer", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")/*' . PHP_EOL;
                         break;
                     case "text":
                         $newcontent .= '* @Annotation\Attributes({"type":"textarea"})' . PHP_EOL;
-                        $newcontent .= '* @ORM\Column(type="text", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $property->getTblName() . '")/*' . PHP_EOL;
+                        $newcontent .= '* @ORM\Column(type="text", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")/*' . PHP_EOL;
                         break;
                     case "boolean":
+                        $newcontent .= ' * @Annotation\Type("Zend\Form\Element\Checkbox") ' . PHP_EOL;
                         $newcontent .= '* @Annotation\Attributes({"type":"checkbox"})' . PHP_EOL;
-                        $newcontent .= '* @ORM\Column(type="boolean", nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $property->getTblName() . '")/*' . PHP_EOL;
+                        $newcontent .= '* @ORM\Column(type="boolean", nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")/*' . PHP_EOL;
                         break;
                 }
 
