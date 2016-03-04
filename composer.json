@@ -36,7 +36,7 @@
     
     "autoload": {
         "psr-0": {
-            "CdiDataGrid\\": "src/"
+            "CdiEntity\\": "src/"
         },
          "classmap": [
             "./Module.php"
