@@ -1,6 +1,6 @@
 <?php
 
-namespace CdiUser\Controller;
+namespace CdiEntity\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 

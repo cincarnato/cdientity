@@ -8,11 +8,11 @@ use Zend\Form\Annotation;
 /**
  *
  * @ORM\Entity
- * @ORM\Table(name="cdi_entity")
+ * @ORM\Table(name="cdi_namespaces")
  *
  * @author Cristian Incarnato
  */
-class Entity extends \CdiCommons\Entity\BaseEntity{
+class Namespaces extends \CdiCommons\Entity\BaseEntity{
     
        /**
      * @var int
@@ -24,35 +24,13 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
     protected $id;
     
     /**
-     * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
-     * @Annotation\Options({
-     * "label":"Entity:",
-     * "empty_option": "",
-     * "target_class":"CdiEntity\Entity\Namespaces",
-     * "property": "name"})
-     * @ORM\ManyToOne(targetEntity="CdiEntity\Entity\Namespaces")
-     * @ORM\JoinColumn(name="namespace_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    protected $namespace;
-    
-    /**
      * @var string
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"Name:"})
+     * @Annotation\Options({"label":"Namespace:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="string", length=100, unique=true, nullable=true, name="name")
+     * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="namespace")
      */
     protected $name;
-    
-    
-    /**
-     * @var string
-     * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"TblName:"})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="string", length=100, unique=true, nullable=true, name="tbl_name")
-     */
-    protected $tblName;
     
     
      /**
@@ -63,23 +41,14 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="path")
      */
     protected $path;
-    
-     /**
-     * @var string
-     * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"Extends:"})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="extends")
-     */
-    protected $extends;
 
     
     
     /**
      * @var 
-     * @ORM\OneToMany(targetEntity="CdiEntity\Entity\Property", mappedBy="entity")
+     * @ORM\OneToMany(targetEntity="CdiEntity\Entity\Entity", mappedBy="namespaces")
      */
-    protected $properties;
+    protected $entities;
 
     
 
@@ -92,7 +61,10 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
         return $this->id;
     }
 
-  
+    function getNamespace() {
+        return $this->namespace;
+    }
+
     function getName() {
         return $this->name;
     }
@@ -105,6 +77,9 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
         $this->id = $id;
     }
 
+    function setNamespace($namespace) {
+        $this->namespace = $namespace;
+    }
 
     function setName($name) {
         $this->name = $name;
@@ -142,15 +117,6 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
 
    public function __toString() {
         return $this->name;
-    }
-
-
-    function getNamespace() {
-        return $this->namespace;
-    }
-
-    function setNamespace($namespace) {
-        $this->namespace = $namespace;
     }
 
 

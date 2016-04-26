@@ -50,10 +50,24 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @var string
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="type")
      * @Annotation\Options({"label":"Type:", "description": "string: Campo de tipo texto limitado|integer: campo numerico|text: campo de texto variable|boolean: true o false"})
-     * @Annotation\Attributes({"type":"select","options":{"string":"string","text":"text","integer":"integer","boolean":"boolean"}})
+     * @Annotation\Attributes({"type":"select","options":{"string":"string","text":"text","integer":"integer","boolean":"boolean","oneToOne":"oneToOne","ManyToOne":"ManyToOne","OneToMany":"OneToMany"}})
      * @Annotation\Type("Zend\Form\Element\Select")
      */
     protected $type;
+    
+    
+     /**
+     * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
+     * @Annotation\Options({
+     * "label":"Entity:",
+     * "empty_option": "",
+     * "target_class":"CdiEntity\Entity\Entity",
+     * "property": "name"})
+     * @ORM\ManyToOne(targetEntity="CdiEntity\Entity\Entity")
+     * @ORM\JoinColumn(name="related_entity_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $relatedEntity;
+    
 
     /**
      * @var string
