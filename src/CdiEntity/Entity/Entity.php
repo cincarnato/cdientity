@@ -31,7 +31,7 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
      * "target_class":"CdiEntity\Entity\Namespaces",
      * "property": "name"})
      * @ORM\ManyToOne(targetEntity="CdiEntity\Entity\Namespaces")
-     * @ORM\JoinColumn(name="namespace_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="namespace_id", referencedColumnName="id", nullable=false,onDelete="CASCADE")
      */
     protected $namespace;
     
@@ -91,6 +91,11 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
     function getId() {
         return $this->id;
     }
+    
+    function getFullName() {
+    return $this->namespace->getName()."\\".$this->name;
+    }
+
 
   
     function getName() {

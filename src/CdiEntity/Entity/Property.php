@@ -42,16 +42,16 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @Annotation\Validator({"name":"Zend\Validator\Regex", "options":{"pattern": "/^[a-z]*$/"}})
      * @Annotation\Filter({"name": "Zend\Filter\StringTrim"})
-     * @ORM\Column(type="string", length=100, unique=true, nullable=true, name="name")
+     * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="name")
      */
     protected $name;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="type")
-     * @Annotation\Options({"label":"Type:", "description": "string: Campo de tipo texto limitado|integer: campo numerico|text: campo de texto variable|boolean: true o false"})
-     * @Annotation\Attributes({"type":"select","options":{"string":"string","text":"text","integer":"integer","boolean":"boolean","oneToOne":"oneToOne","ManyToOne":"ManyToOne","OneToMany":"OneToMany"}})
      * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Options({"label":"Type:", "description": "string: Campo de tipo texto limitado|integer: campo numerico|text: campo de texto variable|boolean: true o false"})
+     * @Annotation\Attributes({"type":"select","options":{"string":"string","text":"text","integer":"integer","boolean":"boolean","oneToOne":"oneToOne","manyToOne":"manyToOne","oneToMany":"oneToMany"}})
+     * @Annotation\Attributes({"onchange":"changetype()"}) 
      */
     protected $type;
     
@@ -72,7 +72,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     /**
      * @var string
      * @Annotation\Options({"label":"Length:", "description": "Cantidad de caracteres del campo"})
-     * @Annotation\Validator({"name":"Between", "options":{"min":1, "max":11}})
+     * @Annotation\Validator({"name":"Between", "options":{"min":1, "max":1000}})
      * @ORM\Column(type="integer", length=11, unique=false, nullable=true, name="length")
      */
     protected $length;
@@ -162,7 +162,16 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     function setBeNullable($beNullable) {
         $this->beNullable = $beNullable;
     }
+    
+    function getRelatedEntity() {
+        return $this->relatedEntity;
+    }
 
+    function setRelatedEntity($relatedEntity) {
+        $this->relatedEntity = $relatedEntity;
+    }
+
+    
     public function __toString() {
         return $this->name;
     }
