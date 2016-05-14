@@ -29,7 +29,7 @@ return array(
             'centity' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/centity/abm[/:action][/:id]',
+                    'route' => '/cdientity/entity/abm[/:action][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]+',
@@ -43,13 +43,27 @@ return array(
             'cproperty' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/cproperty/abm[/:action][/:id][/:eid][/:rid]',
+                    'route' => '/cdientity/property/abm[/:action][/:id][/:eid][/:rid]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'CdiEntity\Controller\Property',
+                        'action' => 'abm',
+                    ),
+                ),
+            ),
+             'cnamespaces' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/cdientity/namespaces/abm[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'CdiEntity\Controller\Namespaces',
                         'action' => 'abm',
                     ),
                 ),
