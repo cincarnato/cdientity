@@ -4,9 +4,7 @@ namespace CdiEntity\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
-
 class EntityController extends AbstractActionController {
-
 
     /**
      * @var Doctrine\ORM\EntityManager
@@ -23,9 +21,8 @@ class EntityController extends AbstractActionController {
         }
         return $this->em;
     }
-    
-    
-     public function abmAction() {
+
+    public function abmAction() {
 
         $grid = $this->getServiceLocator()->get('cdiGrid');
         $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), '\CdiEntity\Entity\Entity');
@@ -38,22 +35,22 @@ class EntityController extends AbstractActionController {
         $grid->hiddenColumn('updatedAt');
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
-
-           $grid->addExtraColumn("<i class='fa fa-book ' ></i>", "<a class='btn btn-primary fa fa-book' href='/cdicmdb/main/abm/{{id}}' target='_blank'></a>", "right", false);
+        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}' target='_blank'></a>", "left", false);
+        $grid->addExtraColumn("<i class='fa fa-book ' ></i>", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' target='_blank'></a>", "right", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
         $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
-       $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
+        $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
         $grid->setTableClass("table-condensed customClass");
 
         $grid->prepare();
         return array('grid' => $grid);
     }
-    
-    public function updateAction(){
-           $id = $this->params("id");
-           
-            $entity = $this->getEntityManager()->getRepository('\CdiEntity\Entity\Entity')->find($id);
-        
+
+    public function updateAction() {
+        $id = $this->params("id");
+
+        $entity = $this->getEntityManager()->getRepository('\CdiEntity\Entity\Entity')->find($id);
+
         $updateEntity = $this->getServiceLocator()->get('cdientity_generate_entity');
         $exec = $updateEntity->update($entity, true);
 
@@ -65,6 +62,5 @@ class EntityController extends AbstractActionController {
             $result = null;
         }
     }
-
 
 }
