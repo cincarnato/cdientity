@@ -8,5 +8,9 @@
     <?php endif; ?>
 
 <?php else: ?>
-    <div class="alert alert-info">Sin actualizacion de esquema</div>
+    <div class="alert alert-warning">Sin actualizacion de esquema</div>
 <?php endif; ?>
+
+    <div class="alert alert-info">
+        <?php echo $this->exec; ?>
+    </div>

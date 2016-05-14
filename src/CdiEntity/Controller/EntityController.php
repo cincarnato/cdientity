@@ -35,6 +35,7 @@ class EntityController extends AbstractActionController {
         $grid->hiddenColumn('updatedAt');
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
+
         $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}' target='_blank'></a>", "left", false);
         $grid->addExtraColumn("<i class='fa fa-book ' ></i>", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' target='_blank'></a>", "right", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
@@ -61,6 +62,7 @@ class EntityController extends AbstractActionController {
         } else if (preg_match("/Nothing\sto\supdate/", $exec)) {
             $result = null;
         }
+         return array('exec' => $exec);
     }
 
 }

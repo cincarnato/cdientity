@@ -32,6 +32,15 @@ class Namespaces extends \CdiCommons\Entity\BaseEntity {
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="namespace")
      */
     protected $name;
+    
+     /**
+     * @var string
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Prefix:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":10}})
+     * @ORM\Column(type="string", length=10, unique=false, nullable=true, name="prefix")
+     */
+    protected $prefix;
 
     /**
      * @var string
@@ -87,5 +96,15 @@ class Namespaces extends \CdiCommons\Entity\BaseEntity {
     public function __toString() {
         return $this->name;
     }
+    
+    function getPrefix() {
+        return $this->prefix;
+    }
+
+    function setPrefix($prefix) {
+        $this->prefix = $prefix;
+    }
+
+
 
 }

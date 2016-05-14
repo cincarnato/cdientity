@@ -25,14 +25,14 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 //                        new \Zend\Code\Reflection\ClassReflection($entity->getName())
 //        );
 
-
+        $namespace = $entity->getNamespace();
         $class = new \Zend\Code\Generator\ClassGenerator();
         $class->setName($entity->getName());
 
         $dc = new \Zend\Code\Generator\DocBlockGenerator();
         $a = array(
             array("name" => 'ORM\Entity'),
-            array("name" => 'ORM\Table(name="cmdb_' . $entity->getName() . '")'),
+            array("name" => 'ORM\Table(name="'.$namespace->getPrefix().'_' . $entity->getName() . '")'),
         );
         $dc->setTags($a);
         $class->setDocBlock($dc);
@@ -41,8 +41,9 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $class->addUse("Zend\Form\Annotation");
         $class->addUse("Doctrine\ORM\Mapping", "ORM");
         
-        
-        $class->setExtendedClass("\CdiCommons\Entity\BaseEntity");
+        if($entity->getExtends()){
+        $class->setExtendedClass($entity->getExtends());
+        }
         
         //Genero campo ID
         $p = new \Zend\Code\Generator\PropertyGenerator();
@@ -119,7 +120,13 @@ class CodeGenerator implements ServiceManagerAwareInterface {
     }
 
     public function updateFile($entity, $file_contents) {
-        file_put_contents($entity->getPath() . "/" . $entity->getName() . ".php", $file_contents);
+        try{
+            $file = $entity->getNamespace()->getPath() . "/" . $entity->getName() . ".php";
+              file_put_contents($file, $file_contents);
+        } catch (Exception $ex) {
+            echo $ex;
+        }
+      
     }
 
     protected function generateDoc($property,$entity) {

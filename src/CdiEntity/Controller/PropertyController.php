@@ -25,8 +25,17 @@ class PropertyController extends AbstractActionController {
     public function abmAction() {
         $id = $this->params("id");
 
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+                ->select('u')
+                ->from('CdiEntity\Entity\Property', 'u')
+                ->where("u.entity = :id")
+                ->setParameter("id", $id);
+
+
+
         $grid = $this->getServiceLocator()->get('cdiGrid');
-        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), '\CdiEntity\Entity\Entity');
+        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), '\CdiEntity\Entity\Property', $query);
         $grid->setSource($source);
         $grid->setRecordPerPage(20);
         $grid->datetimeColumn('createdAt', 'Y-m-d H:i:s');
@@ -42,15 +51,15 @@ class PropertyController extends AbstractActionController {
         $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
         $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
         $grid->setTableClass("table-condensed customClass");
-
+          $grid->prepare();
         if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {
-            $grid->getEntityForm()->get("entity")->setValue($entity->getId());
+            $grid->getEntityForm()->get("entity")->setValue($id);
         }
 
-        
 
-        $grid->prepare();
-        return array('grid' => $grid);
+
+      
+        return array('grid' => $grid,"entityid" => $id);
     }
 
 }
