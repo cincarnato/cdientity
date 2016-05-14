@@ -1,0 +1,12 @@
+<?php if ($this->result !== null): ?>
+
+    <?php if ($this->result): ?>
+        <div class="alert alert-success">Se actualizo el esquema</div>
+
+    <?php else: ?>
+        <div class="alert alert-danger">Error al actualizar el esquema. Por favor contacte a soporte.</div>
+    <?php endif; ?>
+
+<?php else: ?>
+    <div class="alert alert-info">Sin actualizacion de esquema</div>
+<?php endif; ?>

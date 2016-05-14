@@ -48,6 +48,23 @@ class EntityController extends AbstractActionController {
         $grid->prepare();
         return array('grid' => $grid);
     }
+    
+    public function updateAction(){
+           $id = $this->params("id");
+           
+            $entity = $this->getEntityManager()->getRepository('\CdiEntity\Entity\Entity')->find($id);
+        
+        $updateEntity = $this->getServiceLocator()->get('cdientity_generate_entity');
+        $exec = $updateEntity->update($entity, true);
+
+        if (preg_match("/Database\sschema\supdated/", $exec)) {
+            $result = true;
+        } else if (preg_match("/error/", $exec)) {
+            $result = false;
+        } else if (preg_match("/Nothing\sto\supdate/", $exec)) {
+            $result = null;
+        }
+    }
 
 
 }

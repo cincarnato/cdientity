@@ -26,26 +26,31 @@ return array(
     
     'router' => array(
         'routes' => array(
-            'cdientity' => array(
-                'type' => 'Literal',
-                'priority' => 1000,
+            'centity' => array(
+                'type' => 'segment',
                 'options' => array(
-                    'route' => '/cdientity',
+                    'route' => '/centity/adm[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
                     'defaults' => array(
-                        'controller' => 'manager',
-                        'action' => 'index',
+                        'controller' => 'CdiEntity\Controller\Adm',
+                        'action' => 'abm',
                     ),
                 ),
-                'child_routes' => array(
-                    'keepalive' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/cdientity',
-                            'defaults' => array(
-                                'controller' => 'manager',
-                                'action' => 'keepalive',
-                            ),
-                        ),
+            ),
+            'cproperty' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/cproperty/abm[/:action][/:id][/:eid][/:rid]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'CdiEntity\Controller\Property',
+                        'action' => 'abm',
                     ),
                 ),
             ),
