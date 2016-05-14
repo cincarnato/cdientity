@@ -20,7 +20,9 @@ return array(
     ),
      'controllers' => array(
         'invokables' => array(
-            'usersession' => 'CdiUser\Controller\UserSessionController',
+             'CdiEntity\Controller\Namespaces' => 'CdiEntity\Controller\NamespacesController',
+             'CdiEntity\Controller\Entity' => 'CdiEntity\Controller\EntityController',
+             'CdiEntity\Controller\Property' => 'CdiEntity\Controller\PropertyController',
         ),
     ),
     
