@@ -4,7 +4,7 @@ return array(
     'cdientity_options' => array(
         'script_update_schema' => ''
     ),
-      'doctrine' => array(
+    'doctrine' => array(
         'driver' => array(
             // overriding zfc-user-doctrine-orm's config
             'cdientity_entity' => array(
@@ -18,15 +18,15 @@ return array(
             ),
         ),
     ),
-     'controllers' => array(
+    'controllers' => array(
         'invokables' => array(
-             'CdiEntity\Controller\Namespaces' => 'CdiEntity\Controller\NamespacesController',
-             'CdiEntity\Controller\Entity' => 'CdiEntity\Controller\EntityController',
-             'CdiEntity\Controller\Property' => 'CdiEntity\Controller\PropertyController',
-              'CdiEntity\Controller\Main' => 'CdiEntity\Controller\MainController',
+            'CdiEntity\Controller\Namespaces' => 'CdiEntity\Controller\NamespacesController',
+            'CdiEntity\Controller\Entity' => 'CdiEntity\Controller\EntityController',
+            'CdiEntity\Controller\Property' => 'CdiEntity\Controller\PropertyController',
+            'CdiEntity\Controller\Main' => 'CdiEntity\Controller\MainController',
         ),
     ),
-     'view_manager' => array(
+    'view_manager' => array(
         'template_path_stack' => array(
             'cdientity' => __DIR__ . '/../view',
         ),
@@ -61,7 +61,7 @@ return array(
                     ),
                 ),
             ),
-             'cnamespaces' => array(
+            'cnamespaces' => array(
                 'type' => 'segment',
                 'options' => array(
                     'route' => '/cdientity/namespaces/abm[/:action][/:id]',
@@ -75,7 +75,7 @@ return array(
                     ),
                 ),
             ),
-               'cnamespaces' => array(
+            'cmain' => array(
                 'type' => 'segment',
                 'options' => array(
                     'route' => '/cdientity/main/abm[/:action][/:id]',
