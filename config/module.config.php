@@ -23,6 +23,7 @@ return array(
              'CdiEntity\Controller\Namespaces' => 'CdiEntity\Controller\NamespacesController',
              'CdiEntity\Controller\Entity' => 'CdiEntity\Controller\EntityController',
              'CdiEntity\Controller\Property' => 'CdiEntity\Controller\PropertyController',
+              'CdiEntity\Controller\Main' => 'CdiEntity\Controller\MainController',
         ),
     ),
      'view_manager' => array(
@@ -70,6 +71,20 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'CdiEntity\Controller\Namespaces',
+                        'action' => 'abm',
+                    ),
+                ),
+            ),
+               'cnamespaces' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/cdientity/main/abm[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'CdiEntity\Controller\Main',
                         'action' => 'abm',
                     ),
                 ),
