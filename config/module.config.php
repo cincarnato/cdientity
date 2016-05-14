@@ -29,7 +29,7 @@ return array(
             'centity' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/centity/adm[/:action][/:id]',
+                    'route' => '/centity/abm[/:action][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]+',
