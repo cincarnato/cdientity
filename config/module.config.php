@@ -25,7 +25,11 @@ return array(
              'CdiEntity\Controller\Property' => 'CdiEntity\Controller\PropertyController',
         ),
     ),
-    
+     'view_manager' => array(
+        'template_path_stack' => array(
+            'cdientity' => __DIR__ . '/../view',
+        ),
+    ),
     'router' => array(
         'routes' => array(
             'centity' => array(
