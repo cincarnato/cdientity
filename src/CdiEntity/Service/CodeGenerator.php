@@ -40,7 +40,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $class->addUse("Doctrine\Common\Collections\ArrayCollection");
         $class->addUse("Zend\Form\Annotation");
         $class->addUse("Doctrine\ORM\Mapping", "ORM");
-
+        
+        
+        $class->setExtendedClass("\CdiCommons\Entity\BaseEntity");
+        
         //Genero campo ID
         $p = new \Zend\Code\Generator\PropertyGenerator();
         $p->setName("id");
@@ -91,7 +94,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             $class->addMethodFromGenerator($ms);
         }
 
-
+        
+        
         $file = new \Zend\Code\Generator\FileGenerator();
         $file->setClass($class);
 
@@ -105,6 +109,13 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         } else {
             return "NA";
         }
+    }
+    
+       protected function toArray() {
+        $mg = new \Zend\Code\Generator\MethodGenerator();
+        $mg->setName("toArray");
+        $mg->setBody('return (array) $this;');
+        return $mg;
     }
 
     public function updateFile($entity, $file_contents) {
