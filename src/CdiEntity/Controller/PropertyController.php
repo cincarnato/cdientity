@@ -43,7 +43,6 @@ class PropertyController extends AbstractActionController {
         // $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
         $grid->setTableClass("table-condensed customClass");
 
-
         if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {
             $grid->getEntityForm()->get("entity")->setValue($entity->getId());
         }
