@@ -35,7 +35,7 @@ return array(
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'CdiEntity\Controller\Adm',
+                        'controller' => 'CdiEntity\Controller\Abm',
                         'action' => 'abm',
                     ),
                 ),
