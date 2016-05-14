@@ -46,7 +46,6 @@ class PropertyController extends AbstractActionController {
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
 
-        $grid->addExtraColumn("<i class='fa fa-commenting-o ' ></i>", "<a class='btn btn-warning fa fa-commenting-o' onclick='showNewConversation({{id}})'></a>", "left", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
         $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
         $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");

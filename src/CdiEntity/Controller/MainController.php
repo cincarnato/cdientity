@@ -1,6 +1,6 @@
 <?php
 
-namespace CdiCmdb\Controller;
+namespace CdiEntity\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
@@ -30,7 +30,6 @@ class MainController extends AbstractActionController {
                 ->where("u.id = :id")
                 ->setParameter("id", $id);
         $entity = $query->getQuery()->getOneOrNullResult();
-
 
 
         $grid = $this->getServiceLocator()->get('cdiGrid');

@@ -32,7 +32,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $dc = new \Zend\Code\Generator\DocBlockGenerator();
         $a = array(
             array("name" => 'ORM\Entity'),
-            array("name" => 'ORM\Table(name="'.$namespace->getPrefix().'_' . $entity->getName() . '")'),
+            array("name" => 'ORM\Table(name="' . $namespace->getPrefix() . '_' . $entity->getName() . '")'),
         );
         $dc->setTags($a);
         $class->setDocBlock($dc);
@@ -40,11 +40,11 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $class->addUse("Doctrine\Common\Collections\ArrayCollection");
         $class->addUse("Zend\Form\Annotation");
         $class->addUse("Doctrine\ORM\Mapping", "ORM");
-        
-        if($entity->getExtends()){
-        $class->setExtendedClass($entity->getExtends());
+
+        if ($entity->getExtends()) {
+            $class->setExtendedClass($entity->getExtends());
         }
-        
+
         //Genero campo ID
         $p = new \Zend\Code\Generator\PropertyGenerator();
         $p->setName("id");
@@ -68,6 +68,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
         $toString = true;
         foreach ($entity->getProperties() as $property) {
+
+            //Si no es del tipo File
             //Propertie
             $p = new \Zend\Code\Generator\PropertyGenerator();
             $p->setName($property->getName());
@@ -80,7 +82,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             }
 
             //DocBlock
-            $d = $this->generateDoc($property,$entity);
+            $d = $this->generateDoc($property, $entity);
             $p->setDocBlock($d);
 
             //Getter
@@ -95,9 +97,9 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             $class->addMethodFromGenerator($ms);
         }
 
-        
-        
-        $file = new \Zend\Code\Generator\FileGenerator();
+
+
+        $file = new \Zend\Code\Generator\ FileGenerator();
         $file->setClass($class);
 
 // Render the generated file
@@ -106,30 +108,34 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         if ($updateSchema) {
             $cdientity_options = $this->getServiceManager()->get('cdientity_options');
 
-            return exec($cdientity_options->getScriptUpdateSchema());
+
+            return exec(
+                    $cdientity_options->getScriptUpdateSchema());
         } else {
             return "NA";
         }
     }
-    
-       protected function toArray() {
+
+    protected function toArray() {
         $mg = new \Zend\Code\Generator\MethodGenerator();
+
         $mg->setName("toArray");
         $mg->setBody('return (array) $this;');
         return $mg;
     }
 
     public function updateFile($entity, $file_contents) {
-        try{
+        try {
             $file = $entity->getNamespace()->getPath() . "/" . $entity->getName() . ".php";
-              file_put_contents($file, $file_contents);
+            echo $file;
+            file_put_contents(
+                    $file, $file_contents);
         } catch (Exception $ex) {
             echo $ex;
         }
-      
     }
 
-    protected function generateDoc($property,$entity) {
+    protected function generateDoc($property, $entity) {
         switch ($property->getType()) {
             case "string":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
@@ -168,6 +174,23 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 );
                 $d->setTags($a);
                 break;
+            case "file":
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+                $a = array(
+                    array("name" => 'Annotation\Attributes({"type":"file"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '"})'),
+                );
+                $d->setTags($a);
+                break;
+
+            case "stringFile":
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+                $a = array(
+                    array("name" => 'Annotation\Exclude()'),
+                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
+                );
+                $d->setTags($a);
+                break;
             case "oneToOne":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
@@ -190,7 +213,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
-                     array("name" => 'Annotation\Exclude()'),
+                    array("name" => 'Annotation\Exclude()'),
                     array("name" => 'ORM\OneToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '", mappedBy="' . $entity->getName() . '")'),
                 );
                 $d->setTags($a);
@@ -200,23 +223,26 @@ class CodeGenerator implements ServiceManagerAwareInterface {
     }
 
     protected function generateGetter($name) {
-        $mg = new \Zend\Code\Generator\MethodGenerator();
-        $mg->setName("get" . ucfirst($name));
+        $mg = new \Zend\Code\Generator\MethodGenerator ( );
+        $mg->setName(
+                "get" . ucfirst($name));
         $mg->setBody('return $this->' . $name . ";");
         return $mg;
     }
 
     protected function generateSetter($name) {
-        $ms = new \Zend\Code\Generator\MethodGenerator();
+        $ms = new \Zend\Code\Generator\MethodGenerator ( );
         $ms->setName("set" . ucfirst($name));
-        $ms->setBody('$this->' . $name . " = $" . $name . ";");
+        $ms->setBody(
+                '$this->' . $name . " = $" . $name . ";");
         $ms->setParameter($name);
         return $ms;
     }
 
     protected function generateToString($name) {
-        $m = new \Zend\Code\Generator\MethodGenerator();
-        $m->setName("__toString");
+        $m = new \Zend\Code\Generator\MethodGenerator ( );
+        $m->setName(
+                "__toString");
         $m->setBody('return (string) $this->' . $name . ";");
         return $m;
     }
