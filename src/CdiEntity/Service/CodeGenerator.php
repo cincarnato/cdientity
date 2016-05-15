@@ -89,12 +89,23 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             $mg = $this->generateGetter($property->getName());
 
             //Setter
-            $ms = $this->generateSetter($property->getName());
+            if ($property->getType() == "file") {
+                $ms = $this->generateSetterFile($property->getName());
+            } else {
+                $ms = $this->generateSetter($property->getName());
+            }
 
             //Asign
             $class->addPropertyFromGenerator($p);
             $class->addMethodFromGenerator($mg);
             $class->addMethodFromGenerator($ms);
+
+            //Metodos auxiliares para File
+
+            if ($property->getType() == "file") {
+                $a = $this->generateFileMethods($property);
+                $class->addMethods($a);
+            }
         }
 
 
@@ -127,7 +138,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
     public function updateFile($entity, $file_contents) {
         try {
             $file = $entity->getNamespace()->getPath() . "/" . $entity->getName() . ".php";
-            echo $file;
+           
             file_put_contents(
                     $file, $file_contents);
         } catch (Exception $ex) {
@@ -177,8 +188,11 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             case "file":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
+                    array("name" => 'Annotation\Type("Zend\Form\Element\File")'),
                     array("name" => 'Annotation\Attributes({"type":"file"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '","absolutepath":"' . $property->getAbsolutepath() . '","webpath":"' . $property->getWebpath() . '"})'),
+                    array("name" => 'Annotation\Filter({"name":"filerenameupload", "options":{"target":"' . $property->getAbsolutepath() . '","use_upload_name":1,"overwrite":1}})'),
+                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
                 $d->setTags($a);
                 break;
@@ -237,6 +251,38 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 '$this->' . $name . " = $" . $name . ";");
         $ms->setParameter($name);
         return $ms;
+    }
+
+    protected function generateSetterFile($name) {
+        $ms = new \Zend\Code\Generator\MethodGenerator ( );
+        $ms->setName("set" . ucfirst($name));
+        $ms->setBody(
+                'if(is_array($' . $name . ')){'
+                . '$this->' . $name . " = $" . $name . "['name'];"
+                . "}else{"
+                . '$this->' . $name . " = $" . $name . ";"
+                . "}");
+        $ms->setParameter($name);
+        return $ms;
+    }
+
+    protected function generateFileMethods($property) {
+        $ma = new \Zend\Code\Generator\MethodGenerator ( );
+        $ma->setName("getAbsolutepath");
+        $ma->setBody('return "' . $property->getAbsolutepath() . '";');
+        $a[] = $ma;
+
+        $ms = new \Zend\Code\Generator\MethodGenerator ( );
+        $ms->setName("getWebpath");
+        $ms->setBody('return "' . $property->getWebpath() . '";');
+        $a[] = $ms;
+
+        $mf = new \Zend\Code\Generator\MethodGenerator ( );
+        $mf->setName("getFullwebpath");
+        $mf->setBody('return "' . $property->getWebpath() . '".$this->' . $property->getName() . ';');
+        $a[] = $mf;
+
+        return $a;
     }
 
     protected function generateToString($name) {

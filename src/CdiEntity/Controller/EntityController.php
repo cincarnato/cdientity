@@ -24,8 +24,22 @@ class EntityController extends AbstractActionController {
 
     public function abmAction() {
 
+        $id = $this->params("id");
+        if ($id) {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                    ->select('u')
+                    ->from('CdiEntity\Entity\Entity', 'u')
+                    ->where("u.namespace = :id")
+                    ->setParameter("id", $id);
+        } else {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                    ->select('u')
+                    ->from('CdiEntity\Entity\Entity', 'u');
+        }
+
+
         $grid = $this->getServiceLocator()->get('cdiGrid');
-        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), '\CdiEntity\Entity\Entity');
+        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), '\CdiEntity\Entity\Entity', $query);
         $grid->setSource($source);
         $grid->setRecordPerPage(20);
         $grid->datetimeColumn('createdAt', 'Y-m-d H:i:s');
@@ -36,7 +50,7 @@ class EntityController extends AbstractActionController {
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
 
-        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}' target='_blank'></a>", "left", false);
+        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' target='_blank'></a>", "left", false);
         $grid->addExtraColumn("<i class='fa fa-book ' ></i>", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' target='_blank'></a>", "left", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
         $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
@@ -44,6 +58,11 @@ class EntityController extends AbstractActionController {
         $grid->setTableClass("table-condensed customClass");
 
         $grid->prepare();
+
+        if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {
+            $grid->getEntityForm()->get("namespace")->setValue($id);
+        }
+
         return array('grid' => $grid);
     }
 
@@ -62,7 +81,7 @@ class EntityController extends AbstractActionController {
         } else if (preg_match("/Nothing\sto\supdate/", $exec)) {
             $result = null;
         }
-         return array('exec' => $exec);
+        return array('exec' => $exec);
     }
 
 }

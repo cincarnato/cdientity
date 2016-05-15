@@ -72,10 +72,27 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     /**
      * @var string
      * @Annotation\Options({"label":"Length:", "description": "Cantidad de caracteres del campo"})
-     * @Annotation\Validator({"name":"Between", "options":{"min":1, "max":1000}})
+     * @Annotation\Validator({"name":"Between", "options":{"min":0, "max":1000}})
      * @ORM\Column(type="integer", length=11, unique=false, nullable=true, name="length")
      */
     protected $length;
+    
+    
+     /**
+     * @var string
+     * @Annotation\Options({"label":"Absolutepath:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":200}})
+     * @ORM\Column(type="string", length=200, unique=false, nullable=true, name="absolutepath")
+     */
+    protected $absolutepath;
+    
+      /**
+     * @var string
+     * @Annotation\Options({"label":"WebPath:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
+     * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="webpath")
+     */
+    protected $webpath;
 
     /**
      * @var string
@@ -175,5 +192,23 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     public function __toString() {
         return $this->name;
     }
+    
+    function getAbsolutepath() {
+        return $this->absolutepath;
+    }
+
+    function getWebpath() {
+        return $this->webpath;
+    }
+
+    function setAbsolutepath($absolutepath) {
+        $this->absolutepath = $absolutepath;
+    }
+
+    function setWebpath($webpath) {
+        $this->webpath = $webpath;
+    }
+
+
 
 }

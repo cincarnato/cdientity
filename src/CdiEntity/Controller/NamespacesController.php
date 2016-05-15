@@ -4,9 +4,7 @@ namespace CdiEntity\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
-
 class NamespacesController extends AbstractActionController {
-
 
     /**
      * @var Doctrine\ORM\EntityManager
@@ -23,9 +21,8 @@ class NamespacesController extends AbstractActionController {
         }
         return $this->em;
     }
-    
-    
-     public function abmAction() {
+
+    public function abmAction() {
 
         $grid = $this->getServiceLocator()->get('cdiGrid');
         $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), '\CdiEntity\Entity\Namespaces');
@@ -39,17 +36,14 @@ class NamespacesController extends AbstractActionController {
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
 
-         $grid->addExtraColumn("<i class='fa fa-commenting-o ' ></i>", "<a class='btn btn-warning fa fa-commenting-o' onclick='showNewConversation({{id}})'></a>","left", false);
+        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/entity/abm/{{id}}#E' target='_blank'></a>", "left", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
         $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
-       $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
+        $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
         $grid->setTableClass("table-condensed customClass");
 
         $grid->prepare();
         return array('grid' => $grid);
     }
-    
-
-
 
 }

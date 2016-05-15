@@ -37,8 +37,8 @@ class Namespaces extends \CdiCommons\Entity\BaseEntity {
      * @var string
      * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"Prefix:"})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":10}})
-     * @ORM\Column(type="string", length=10, unique=false, nullable=true, name="prefix")
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":15}})
+     * @ORM\Column(type="string", length=15, unique=false, nullable=true, name="prefix")
      */
     protected $prefix;
 

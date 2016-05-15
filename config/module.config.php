@@ -2,7 +2,8 @@
 
 return array(
     'cdientity_options' => array(
-        'script_update_schema' => ''
+        'script_update_schema' => '',
+        'autoupdate' => false
     ),
     'doctrine' => array(
         'driver' => array(
@@ -29,6 +30,38 @@ return array(
     'view_manager' => array(
         'template_path_stack' => array(
             'cdientity' => __DIR__ . '/../view',
+        ),
+    ),
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label' => 'CDIENTITY',
+                'uri' => '#',
+                'detail' => "",
+                'icon' => 'fa fa-puzzle-piece ',
+                'resource' => 'adm',
+                'privilege' => 'abm',
+                'pages' => array(
+                    array(
+                        'label' => 'Namespaces',
+                        'uri' => '/cdientity/namespaces/abm',
+                        'icon' => 'fa fa-search',
+                        'resource' => 'adm',
+                        'privilege' => 'abm',
+                    ),
+                    array(
+                        'uri' => '#',
+                        'separator' => true
+                    ),
+                    array(
+                        'label' => 'Entity',
+                        'uri' => '/cdientity/entity/abm',
+                        'icon' => 'fa fa-apple',
+                        'resource' => 'adm',
+                        'privilege' => 'abm',
+                    ),
+                )
+            ),
         ),
     ),
     'router' => array(

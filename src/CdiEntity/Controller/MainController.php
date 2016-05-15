@@ -23,7 +23,11 @@ class MainController extends AbstractActionController {
     }
 
     public function abmAction() {
+       
         $id = $this->params("id");
+        
+     
+        
         $query = $this->getEntityManager()->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
