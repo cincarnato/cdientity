@@ -211,6 +211,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
                     array("name" => 'Annotation\Options({"label":"' . $property->getName() . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '"})'),
                     array("name" => 'ORM\OneToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
+                     array("name" => 'ORM\JoinColumn(name="'.$property->getName().'_id", referencedColumnName="id"'.($property->getBeNullable() ? ', nullable=true': '').')')
                 );
                 $d->setTags($a);
                 break;
@@ -220,6 +221,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
                     array("name" => 'Annotation\Options({"label":"' . $property->getName() . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '"})'),
                     array("name" => 'ORM\ManyToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
+                    array("name" => 'ORM\JoinColumn(name="'.$property->getName().'_id", referencedColumnName="id"'.($property->getBeNullable() ? ', nullable=true': '').')')
                 );
                 $d->setTags($a);
                 break;
