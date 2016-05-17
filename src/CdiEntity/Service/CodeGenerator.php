@@ -138,7 +138,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
     public function updateFile($entity, $file_contents) {
         try {
             $file = $entity->getNamespace()->getPath() . "/" . $entity->getName() . ".php";
-           
+
             file_put_contents(
                     $file, $file_contents);
         } catch (Exception $ex) {
@@ -211,7 +211,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
                     array("name" => 'Annotation\Options({"label":"' . $property->getName() . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '"})'),
                     array("name" => 'ORM\OneToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
-                     array("name" => 'ORM\JoinColumn(name="'.$property->getName().'_id", referencedColumnName="id"'.($property->getBeNullable() ? ', nullable=true': '').')')
+                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : '') . ')')
                 );
                 $d->setTags($a);
                 break;
@@ -221,7 +221,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
                     array("name" => 'Annotation\Options({"label":"' . $property->getName() . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '"})'),
                     array("name" => 'ORM\ManyToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
-                    array("name" => 'ORM\JoinColumn(name="'.$property->getName().'_id", referencedColumnName="id"'.($property->getBeNullable() ? ', nullable=true': '').')')
+                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : '') . ')')
                 );
                 $d->setTags($a);
                 break;
@@ -270,17 +270,21 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
     protected function generateFileMethods($property) {
         $ma = new \Zend\Code\Generator\MethodGenerator ( );
-        $ma->setName("getAbsolutepath");
+        $method = "get" . ucfirst($property->getName()) . "_ap";
+        $ma->setName($method);
         $ma->setBody('return "' . $property->getAbsolutepath() . '";');
         $a[] = $ma;
 
+
         $ms = new \Zend\Code\Generator\MethodGenerator ( );
-        $ms->setName("getWebpath");
+        $method = "get" . ucfirst($property->getName()) . "_wp";
+        $ms->setName($method);
         $ms->setBody('return "' . $property->getWebpath() . '";');
         $a[] = $ms;
 
         $mf = new \Zend\Code\Generator\MethodGenerator ( );
-        $mf->setName("getFullwebpath");
+        $method = "get" . ucfirst($property->getName()) . "_fp";
+        $mf->setName($method);
         $mf->setBody('return "' . $property->getWebpath() . '".$this->' . $property->getName() . ';');
         $a[] = $mf;
 
