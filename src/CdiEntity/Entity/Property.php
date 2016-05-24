@@ -42,7 +42,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @Annotation\Validator({"name":"Zend\Validator\Regex", "options":{"pattern": "/^[a-z]*$/"}})
      * @Annotation\Filter({"name": "Zend\Filter\StringTrim"})
-     * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="name")
+     * @ORM\Column(type="string", length=100, unique=false, nullable=false, name="name")
      */
     protected $name;
 
@@ -59,7 +59,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      /**
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Options({
-     * "label":"Entity:",
+     * "label":"Related Entity:",
      * "empty_option": "",
      * "target_class":"CdiEntity\Entity\Entity",
      * "property": "name"})
@@ -112,6 +112,24 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      */
     protected $beNullable = true;
 
+      /**
+     * @var string
+     * @Annotation\Options({"label":"Label:", "description": ""})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":200}})
+     * @ORM\Column(type="string", length=200, unique=false, nullable=true, name="label")
+     */
+    protected $label;
+    
+    
+         /**
+     * @var string
+     * @Annotation\Options({"label":"Description:", "description": ""})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":500}})
+     * @ORM\Column(type="string", length=500, unique=false, nullable=true, name="description")
+     */
+    protected $description;
+
+    
     public function __construct() {
         
     }
@@ -208,6 +226,24 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     function setWebpath($webpath) {
         $this->webpath = $webpath;
     }
+    
+    function getLabel() {
+        return $this->label;
+    }
+
+    function getDescription() {
+        return $this->description;
+    }
+
+    function setLabel($label) {
+        $this->label = $label;
+    }
+
+    function setDescription($description) {
+        $this->description = $description;
+    }
+
+
 
 
 

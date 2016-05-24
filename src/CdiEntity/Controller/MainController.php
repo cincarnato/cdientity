@@ -23,11 +23,11 @@ class MainController extends AbstractActionController {
     }
 
     public function abmAction() {
-       
+
         $id = $this->params("id");
-        
-     
-        
+
+
+
         $query = $this->getEntityManager()->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
@@ -66,6 +66,10 @@ class MainController extends AbstractActionController {
                 $grid->setFormFilterSelect($property->getRelatedEntity()->getName(), $filterType);
                 $grid->clinkColumn($property->getName(), array(array("path" => '/cdicmdb/main/view/', "data" => $property->getRelatedEntity()->getName()), array("path" => '/' . $property->getRelatedEntity()->getId(), "data" => "")));
             }
+               if ($property->getType() == "file") {
+                $grid->fileColumn($property->getName(), $property->getWebpath(),"50px","30px");
+            }
+           
         }
 
         $grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdicmdb/main/view/{{id}}/" . $entity->getId() . "' target='_blank'></a>", "left", false);

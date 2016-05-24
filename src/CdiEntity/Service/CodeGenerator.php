@@ -70,6 +70,9 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         foreach ($entity->getProperties() as $property) {
 
             //Si no es del tipo File
+              if (($property->getType() == "oneToOne" || $property->getType() == "manyToOne") &&  $property->getRelatedEntity() == null) {
+                  return "<div class='alert alert-danger'> Una Property de tipo ".$property->getType()." debe tener una Entidad relacionada</div>";
+              }
             //Propertie
             $p = new \Zend\Code\Generator\PropertyGenerator();
             $p->setName($property->getName());
@@ -147,12 +150,21 @@ class CodeGenerator implements ServiceManagerAwareInterface {
     }
 
     protected function generateDoc($property, $entity) {
+
+        if ($property->getLabel()) {
+            $label = $property->getLabel();
+        } else {
+            $label = $property->getName();
+        }
+
+
         switch ($property->getType()) {
+
             case "string":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
                     array("name" => 'Annotation\Attributes({"type":"text"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
                     array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
                 $d->setTags($a);
@@ -161,7 +173,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
                     array("name" => 'Annotation\Attributes({"type":"text"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
                     array("name" => 'ORM\Column(type="integer", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
                 $d->setTags($a);
@@ -170,7 +182,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
                     array("name" => 'Annotation\Attributes({"type":"textarea"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
                     array("name" => 'ORM\Column(type="text", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
                 $d->setTags($a);
@@ -180,7 +192,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 $a = array(
                     array("name" => 'Annotation\Type("Zend\Form\Element\Checkbox")'),
                     array("name" => 'Annotation\Attributes({"type":"checkbox"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
                     array("name" => 'ORM\Column(type="boolean", nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
                 $d->setTags($a);
@@ -190,7 +202,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 $a = array(
                     array("name" => 'Annotation\Type("Zend\Form\Element\File")'),
                     array("name" => 'Annotation\Attributes({"type":"file"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . '","absolutepath":"' . $property->getAbsolutepath() . '","webpath":"' . $property->getWebpath() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $label . '","absolutepath":"' . $property->getAbsolutepath() . '","webpath":"' . $property->getWebpath() . '", "description":"'. $property->getDescription().'"})'),
                     array("name" => 'Annotation\Filter({"name":"filerenameupload", "options":{"target":"' . $property->getAbsolutepath() . '","use_upload_name":1,"overwrite":1}})'),
                     array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
@@ -209,9 +221,9 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
                     array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"'. $property->getDescription().'"})'),
                     array("name" => 'ORM\OneToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
-                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : '') . ')')
+                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
                 );
                 $d->setTags($a);
                 break;
@@ -219,9 +231,9 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 $a = array(
                     array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                    array("name" => 'Annotation\Options({"label":"' . $property->getName() . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '"})'),
+                    array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"'. $property->getDescription().'"})'),
                     array("name" => 'ORM\ManyToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
-                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : '') . ')')
+                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
                 );
                 $d->setTags($a);
                 break;
