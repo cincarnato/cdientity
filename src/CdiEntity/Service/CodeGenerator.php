@@ -70,9 +70,9 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         foreach ($entity->getProperties() as $property) {
 
             //Si no es del tipo File
-              if (($property->getType() == "oneToOne" || $property->getType() == "manyToOne") &&  $property->getRelatedEntity() == null) {
-                  return "<div class='alert alert-danger'> Una Property de tipo ".$property->getType()." debe tener una Entidad relacionada</div>";
-              }
+            if (($property->getType() == "oneToOne" || $property->getType() == "manyToOne") && $property->getRelatedEntity() == null) {
+                return "<div class='alert alert-danger'> Una Property de tipo " . $property->getType() . " debe tener una Entidad relacionada</div>";
+            }
             //Propertie
             $p = new \Zend\Code\Generator\PropertyGenerator();
             $p->setName($property->getName());
@@ -162,84 +162,167 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
             case "string":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Attributes({"type":"text"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
-                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"text"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
+                    );
+                }
+
+                $aDoctrine = array(
+                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")')
                 );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
                 $d->setTags($a);
                 break;
             case "integer":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Attributes({"type":"text"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"text"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})'),
+                    );
+                }
+
+                $aDoctrine = array(
                     array("name" => 'ORM\Column(type="integer", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
                 $d->setTags($a);
                 break;
             case "text":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Attributes({"type":"textarea"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"textarea"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})'),
+                    );
+                }
+
+                $aDoctrine = array(
                     array("name" => 'ORM\Column(type="text", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
                 $d->setTags($a);
                 break;
             case "boolean":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Type("Zend\Form\Element\Checkbox")'),
-                    array("name" => 'Annotation\Attributes({"type":"checkbox"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"'. $property->getDescription().'"})'),
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Checkbox")'),
+                        array("name" => 'Annotation\Attributes({"type":"checkbox"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})'),
+                    );
+                }
+
+                $aDoctrine = array(
                     array("name" => 'ORM\Column(type="boolean", nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
                 $d->setTags($a);
                 break;
             case "file":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Type("Zend\Form\Element\File")'),
-                    array("name" => 'Annotation\Attributes({"type":"file"})'),
-                    array("name" => 'Annotation\Options({"label":"' . $label . '","absolutepath":"' . $property->getAbsolutepath() . '","webpath":"' . $property->getWebpath() . '", "description":"'. $property->getDescription().'"})'),
-                    array("name" => 'Annotation\Filter({"name":"filerenameupload", "options":{"target":"' . $property->getAbsolutepath() . '","use_upload_name":1,"overwrite":1}})'),
-                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
-                );
-                $d->setTags($a);
-                break;
 
-            case "stringFile":
-                $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Exclude()'),
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Type("Zend\Form\Element\File")'),
+                        array("name" => 'Annotation\Attributes({"type":"file"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '","absolutepath":"' . $property->getAbsolutepath() . '","webpath":"' . $property->getWebpath() . '", "description":"' . $property->getDescription() . '"})'),
+                        array("name" => 'Annotation\Filter({"name":"filerenameupload", "options":{"target":"' . $property->getAbsolutepath() . '","use_upload_name":1,"overwrite":1}})'),
+                    );
+                }
+
+                $aDoctrine = array(
                     array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
                 );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
                 $d->setTags($a);
                 break;
             case "oneToOne":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                    array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"'. $property->getDescription().'"})'),
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
+                    );
+                }
+
+                $aDoctrine = array(
                     array("name" => 'ORM\OneToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
                     array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
                 );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
                 $d->setTags($a);
                 break;
             case "manyToOne":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                $a = array(
-                    array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                    array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"'. $property->getDescription().'"})'),
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
+                    );
+                }
+
+                $aDoctrine = array(
                     array("name" => 'ORM\ManyToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
                     array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
                 );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
                 $d->setTags($a);
                 break;
             case "oneToMany":
 
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
+
                 $a = array(
                     array("name" => 'Annotation\Exclude()'),
                     array("name" => 'ORM\OneToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '", mappedBy="' . $entity->getName() . '")'),
