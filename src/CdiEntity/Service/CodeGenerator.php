@@ -175,7 +175,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 }
 
                 $aDoctrine = array(
-                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")')
+                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")')
                 );
 
                 $a = array_merge_recursive($aForm, $aDoctrine);
@@ -197,7 +197,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 }
 
                 $aDoctrine = array(
-                    array("name" => 'ORM\Column(type="integer", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
+                    array("name" => 'ORM\Column(type="integer", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")'),
                 );
 
                 $a = array_merge_recursive($aForm, $aDoctrine);
@@ -219,7 +219,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 }
 
                 $aDoctrine = array(
-                    array("name" => 'ORM\Column(type="text", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
+                    array("name" => 'ORM\Column(type="text", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")'),
                 );
 
                 $a = array_merge_recursive($aForm, $aDoctrine);
@@ -266,7 +266,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 }
 
                 $aDoctrine = array(
-                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . strtolower($property->getName()) . '")'),
+                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")'),
                 );
 
                 $a = array_merge_recursive($aForm, $aDoctrine);
@@ -289,7 +289,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $aDoctrine = array(
                     array("name" => 'ORM\OneToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
-                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
+                    array("name" => 'ORM\JoinColumn(name="' . $this->camelToUnder($property->getName()) . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
                 );
 
                 $a = array_merge_recursive($aForm, $aDoctrine);
@@ -312,7 +312,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $aDoctrine = array(
                     array("name" => 'ORM\ManyToOne(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
-                    array("name" => 'ORM\JoinColumn(name="' . $property->getName() . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
+                    array("name" => 'ORM\JoinColumn(name="' . $this->camelToUnder($property->getName()) . '_id", referencedColumnName="id"' . ($property->getBeNullable() ? ', nullable=true' : ', nullable=false') . ')')
                 );
 
                 $a = array_merge_recursive($aForm, $aDoctrine);
@@ -322,10 +322,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             case "oneToMany":
 
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-
+                //Debo remplazar strtolower($entity->getName()) por una busqueda de la propiedad que tiene la relacion
                 $a = array(
                     array("name" => 'Annotation\Exclude()'),
-                    array("name" => 'ORM\OneToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '", mappedBy="' . $entity->getName() . '")'),
+                    array("name" => 'ORM\OneToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '", mappedBy="' . strtolower($entity->getName()) . '")'),
                 );
                 $d->setTags($a);
                 break;
@@ -421,5 +421,12 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $this->serviceManager = $serviceManager;
         return $this;
     }
+    
+    
+      protected function camelToUnder($input){
+        $output = ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $input)), '_');
+        return $output;
+    }
+
 
 }
