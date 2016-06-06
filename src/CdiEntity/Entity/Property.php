@@ -40,7 +40,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @var string
      * @Annotation\Options({"label":"Name:", "description": "Solo se admiten nombres alfanumericos, sin espacios"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @Annotation\Validator({"name":"Zend\Validator\Regex", "options":{"pattern": "/^[a-z]*$/"}})
+     * @Annotation\Validator({"name":"Zend\Validator\Regex", "options":{"pattern": "/^[a-zA-Z]*$/"}})
      * @Annotation\Filter({"name": "Zend\Filter\StringTrim"})
      * @ORM\Column(type="string", length=100, unique=false, nullable=false, name="name")
      */
