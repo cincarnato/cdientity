@@ -283,7 +283,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                        array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
                     );
                 }
 
@@ -306,7 +306,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                        array("name" => 'Annotation\Options({"label":"' . $label . ':","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
                     );
                 }
 
