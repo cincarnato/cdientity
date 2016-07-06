@@ -34,7 +34,7 @@
                 <?php endif; ?>
 
 
-                <?php echo $this->RenderCdiGrid($this->grid); ?>
+                <?php echo $this->CdiGrid($this->grid); ?>
 
 
             </div> <!-- /.panel-body -->
@@ -46,31 +46,33 @@
 
 <script>
 
-    $(function () {
+    jQuery(function () {
 
         changetype();
 
     });
 
+
     function changetype() {
-        var types = $("[name='type'").val();
+        var types = jQuery("[name='type'").val();
 
         if (types == "file") {
-            $("#row_absolutepath").show();
-            $("#row_webpath").show();
+            jQuery("#row_absolutepath").show();
+            jQuery("#row_webpath").show();
         } else {
-            $("#row_absolutepath").hide();
-            $("#row_webpath").hide();
+            jQuery("#row_absolutepath").hide();
+            jQuery("#row_webpath").hide();
         }
 
         if (types == "oneToOne" || types == "manyToOne" || types == "oneToMany") {
-            $("#row_length").hide();
-            $("#row_relatedEntity").show();
+            jQuery("#row_length").hide();
+            jQuery("#row_relatedEntity").show();
         } else {
 
-            $("#row_length").show();
-            $("#row_relatedEntity").hide();
+            jQuery("#row_length").show();
+            jQuery("#row_relatedEntity").hide();
         }
+
     }
 
 </script>

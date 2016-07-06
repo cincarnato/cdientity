@@ -50,8 +50,8 @@ class EntityController extends AbstractActionController {
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
 
-        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' target='_blank'></a>", "left", false);
-        $grid->addExtraColumn("<i class='fa fa-book ' ></i>", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' target='_blank'></a>", "left", false);
+        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "left", false);
+        $grid->addExtraColumn("<i class='fa fa-book ' ></i>", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "left", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
         $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
         $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");

@@ -50,7 +50,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="type")
      * @Annotation\Type("Zend\Form\Element\Select")
      * @Annotation\Options({"label":"Type:", "description": "string: Campo de tipo texto limitado|integer: campo numerico|text: campo de texto variable|boolean: true o false"})
-     * @Annotation\Attributes({"type":"select","options":{"string":"string","text":"text","integer":"integer","boolean":"boolean","file":"file","oneToOne":"oneToOne","manyToOne":"manyToOne","oneToMany":"oneToMany"}})
+     * @Annotation\Attributes({"type":"select","options":{"string":"string","date":"date","datetime":"datetime","text":"text","integer":"integer","boolean":"boolean","file":"file","oneToOne":"oneToOne","manyToOne":"manyToOne","oneToMany":"oneToMany"}})
      * @Annotation\Attributes({"onchange":"changetype()"}) 
      */
     protected $type;

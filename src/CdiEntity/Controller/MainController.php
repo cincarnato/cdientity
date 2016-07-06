@@ -52,7 +52,7 @@ class MainController extends AbstractActionController {
         foreach ($entity->getProperties() as $property) {
             if ($property->getType() == "oneToMany") {
                 $grid->hiddenColumn($property->getName());
-                $grid->addExtraColumn("<i class='fa fa-tree ' >" . $property->getName() . "</i>", "<a class='btn btn-warning fa fa-tree' href='/cdicmdb/main/onetomany/" . $entity->getId() . "/{{id}}/" . $property->getRelatedEntity()->getId() . "' target='_blank'></a>", "right", false);
+                $grid->addExtraColumn("<i class='fa fa-tree ' >" . $property->getName() . "</i>", "<a class='btn btn-warning fa fa-tree' href='/cdicmdb/main/onetomany/" . $entity->getId() . "/{{id}}/" . $property->getRelatedEntity()->getId() . "' ></a>", "right", false);
             }
 
             if ($property->getType() == "manyToOne" || $property->getType() == "oneToOne") {
@@ -66,13 +66,25 @@ class MainController extends AbstractActionController {
                 $grid->setFormFilterSelect($property->getRelatedEntity()->getName(), $filterType);
                 $grid->clinkColumn($property->getName(), array(array("path" => '/cdicmdb/main/view/', "data" => $property->getRelatedEntity()->getName()), array("path" => '/' . $property->getRelatedEntity()->getId(), "data" => "")));
             }
+            
+             if ($property->getType() == "datetime"){
+                  $grid->datetimeColumn($property->getName(), 'Y-m-d H:i:s');
+                 
+             }
+             
+              if ($property->getType() == "date"){
+                  $grid->datetimeColumn($property->getName(), 'Y-m-d');
+                 
+             }
+                    
+            
                if ($property->getType() == "file") {
                 $grid->fileColumn($property->getName(), $property->getWebpath(),"50px","30px");
             }
            
         }
 
-        $grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdicmdb/main/view/{{id}}/" . $entity->getId() . "' target='_blank'></a>", "left", false);
+        $grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdicmdb/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
 
         $grid->addEditOption("Edit", "left", "btn btn-primary fa fa-edit");
         $grid->addDelOption("Del", "left", "btn btn-danger fa fa-trash");

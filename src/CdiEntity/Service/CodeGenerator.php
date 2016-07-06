@@ -182,6 +182,52 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $d->setTags($a);
                 break;
+                 case "date":
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                         array("name" => 'Annotation\Type("Zend\Form\Element\Date")'),
+                        array("name" => 'Annotation\Attributes({"type":"date"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
+                    );
+                }
+
+                $aDoctrine = array(
+                    array("name" => 'ORM\Column(type="date", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")')
+                );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
+                $d->setTags($a);
+                break;
+                 case "datetime":
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else {
+                    $aForm = array(
+                         array("name" => 'Annotation\Type("Zend\Form\Element\Datetime")'),
+                        array("name" => 'Annotation\Attributes({"type":"datetime"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
+                    );
+                }
+
+                $aDoctrine = array(
+                    array("name" => 'ORM\Column(type="datetime", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")')
+                );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
+                $d->setTags($a);
+                break;
             case "integer":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
 
