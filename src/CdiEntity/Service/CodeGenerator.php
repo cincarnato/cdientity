@@ -167,6 +167,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
                     );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                    );
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Attributes({"type":"text"})'),
@@ -182,16 +186,20 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $d->setTags($a);
                 break;
-                 case "date":
+            case "date":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
 
                 if ($property->getExclude()) {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
                     );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                    );
                 } else {
                     $aForm = array(
-                         array("name" => 'Annotation\Type("Zend\Form\Element\Date")'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Date")'),
                         array("name" => 'Annotation\Attributes({"type":"date"})'),
                         array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
                     );
@@ -205,16 +213,20 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $d->setTags($a);
                 break;
-                 case "datetime":
+            case "datetime":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
 
                 if ($property->getExclude()) {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
                     );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                    );
                 } else {
                     $aForm = array(
-                         array("name" => 'Annotation\Type("Zend\Form\Element\Datetime")'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Datetime")'),
                         array("name" => 'Annotation\Attributes({"type":"datetime"})'),
                         array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
                     );
@@ -234,6 +246,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 if ($property->getExclude()) {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
+                    );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
                     );
                 } else {
                     $aForm = array(
@@ -257,6 +273,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
                     );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                    );
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Attributes({"type":"textarea"})'),
@@ -278,6 +298,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 if ($property->getExclude()) {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
+                    );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
                     );
                 } else {
                     $aForm = array(
@@ -301,6 +325,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 if ($property->getExclude()) {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
+                    );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
                     );
                 } else {
                     $aForm = array(
@@ -326,6 +354,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
                     );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                    );
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
@@ -348,6 +380,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 if ($property->getExclude()) {
                     $aForm = array(
                         array("name" => 'Annotation\Exclude()')
+                    );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
                     );
                 } else {
                     $aForm = array(
@@ -467,12 +503,10 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $this->serviceManager = $serviceManager;
         return $this;
     }
-    
-    
-      protected function camelToUnder($input){
+
+    protected function camelToUnder($input) {
         $output = ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $input)), '_');
         return $output;
     }
-
 
 }

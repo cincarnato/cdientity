@@ -137,7 +137,15 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="exclude")
      */
     protected $exclude = false;
-
+    
+        /**
+     * @var string
+     * @Annotation\Type("Zend\Form\Element\Checkbox") 
+     * @Annotation\Attributes({"type":"checkbox"})
+     * @Annotation\Options({"label":"Hidden:", "value": "0"})
+     * @ORM\Column(type="boolean", unique=false, nullable=true, name="hidden")
+     */
+    protected $hidden = false;
     
     public function __construct() {
         
@@ -260,6 +268,16 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     function setExclude($exclude) {
         $this->exclude = $exclude;
     }
+    
+    function getHidden() {
+        return $this->hidden;
+    }
+
+    function setHidden($hidden) {
+        $this->hidden = $hidden;
+    }
+
+
 
 
 
