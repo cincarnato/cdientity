@@ -64,7 +64,7 @@ class MainController extends AbstractActionController {
                     'empty_item_label' => 'Todos',
                 ));
                 $grid->setFormFilterSelect($property->getRelatedEntity()->getName(), $filterType);
-                $grid->clinkColumn($property->getName(), array(array("path" => '/cdicmdb/main/view/', "data" => $property->getRelatedEntity()->getName()), array("path" => '/' . $property->getRelatedEntity()->getId(), "data" => "")));
+             //   $grid->clinkColumn($property->getName(), array(array("path" => '/cdicmdb/main/view/', "data" => $property->getRelatedEntity()->getName()), array("path" => '/' . $property->getRelatedEntity()->getId(), "data" => "")));
             }
             
              if ($property->getType() == "datetime"){
