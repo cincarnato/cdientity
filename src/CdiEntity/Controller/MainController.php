@@ -3,7 +3,7 @@
 namespace CdiEntity\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-
+use Zend\View\Model\ViewModel;
 class MainController extends AbstractActionController {
 
     /**
@@ -52,47 +52,51 @@ class MainController extends AbstractActionController {
         foreach ($entity->getProperties() as $property) {
             if ($property->getType() == "oneToMany") {
                 $grid->hiddenColumn($property->getName());
-                $grid->addExtraColumn("<i class='fa fa-tree ' >" . $property->getName() . "</i>", "<a class='btn btn-warning fa fa-tree' href='/cdicmdb/main/onetomany/" . $entity->getId() . "/{{id}}/" . $property->getRelatedEntity()->getId() . "' ></a>", "right", false);
+                $grid->addExtraColumn("<i class='fa fa-tree ' >" . $property->getName() . "</i>", "<a class='btn btn-warning fa fa-tree' href='/cdientity/main/onetomany/" . $entity->getId() . "/{{id}}/" . $property->getRelatedEntity()->getId() . "' ></a>", "right", false);
             }
 
             if ($property->getType() == "manyToOne" || $property->getType() == "oneToOne") {
                 $filterType = new \DoctrineModule\Form\Element\ObjectSelect();
-                $filterType->setOptions(array(
-                    'object_manager' => $this->getEntityManager(),
-                    'target_class' => $property->getRelatedEntity()->getFullName(),
-                    'display_empty_item' => true,
-                    'empty_item_label' => 'Todos',
-                ));
-                $grid->setFormFilterSelect($property->getRelatedEntity()->getName(), $filterType);
-             //   $grid->clinkColumn($property->getName(), array(array("path" => '/cdicmdb/main/view/', "data" => $property->getRelatedEntity()->getName()), array("path" => '/' . $property->getRelatedEntity()->getId(), "data" => "")));
+
+                $customData = array(
+                    "eid" => $property->getRelatedEntity()->getId()
+                );
+
+                $grid->customHelperColumn($property->getName(), "CustomEntityLink", $customData);
             }
-            
-             if ($property->getType() == "datetime"){
-                  $grid->datetimeColumn($property->getName(), 'Y-m-d H:i:s');
-                 
-             }
-             
-              if ($property->getType() == "date"){
-                  $grid->datetimeColumn($property->getName(), 'Y-m-d');
-                 
-             }
-                    
-            
-               if ($property->getType() == "file") {
-                $grid->fileColumn($property->getName(), $property->getWebpath(),"50px","30px");
+
+            if ($property->getType() == "datetime") {
+                $grid->datetimeColumn($property->getName(), 'Y-m-d H:i:s');
             }
-           
+
+            if ($property->getType() == "date") {
+                $grid->datetimeColumn($property->getName(), 'Y-m-d');
+            }
+
+
+            if ($property->getType() == "file") {
+                $grid->fileColumn($property->getName(), $property->getWebpath(), "50px", "30px");
+            }
         }
 
-        $grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdicmdb/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
+        $grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdientity/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
 
         $grid->addEditOption("Edit", "left", "btn btn-primary fa fa-edit");
         $grid->addDelOption("Del", "left", "btn btn-danger fa fa-trash");
         $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
         $grid->setTableClass("table-condensed customClass");
+        $grid->setTemplate("ajax");
 
+         //ForceFilter
+        $idElement = new \Zend\Form\Element\Text("id");
+        $grid->addForceFilter("id",$idElement);
+        
         $grid->prepare();
-        return array('grid' => $grid, 'entity' => $entity);
+        $view = new ViewModel(array('grid' => $grid));
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $view->setTerminal(true);
+        }
+        return $view;
     }
 
     public function viewAction() {

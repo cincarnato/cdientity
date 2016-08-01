@@ -12,7 +12,7 @@
                 <div class="panel-body">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs">
-                        <li ><a href="#info" data-toggle="tab">info</a>
+                        <li class="active"><a href="#info" data-toggle="tab">info</a>
                         </li>
 
                         <?php foreach ($this->rentity->getProperties() as $property): ?>
@@ -32,7 +32,7 @@
                     <div class="tab-content">
                         
                          <div class="tab-pane fade in active" id="info">
-                                    <?php echo $this->partial("cdi-cmdb/partial/entity", array("entity" => $this->entity)); ?>
+                                    <?php echo $this->partial("cdi-entity/partial/entity", array("entity" => $this->entity)); ?>
 
                                 </div>
                         
@@ -42,7 +42,7 @@
                                 <div class="tab-pane fade in <?php echo $active; ?>" id="<?php echo $property->getName(); ?>">
                                     <?php $method = "get" . ucfirst($property->getName()); ?>
                                     <?php foreach ($this->entity->{$method}() as $e): ?>
-                                        <?php echo $this->partial("cdi-cmdb/partial/entity", array("entity" => $e)); ?>
+                                        <?php echo $this->partial("cdi-entity/partial/entity", array("entity" => $e)); ?>
 
                                     <?php endforeach; ?>
 

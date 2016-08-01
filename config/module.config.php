@@ -27,6 +27,11 @@ return array(
             'CdiEntity\Controller\Main' => 'CdiEntity\Controller\MainController',
         ),
     ),
+      'view_helpers' => array(
+        'invokables' => array(
+            'CustomEntityLink' => 'CdiEntity\View\Helper\CustomEntityLink',
+            )
+        ),
     'view_manager' => array(
         'template_path_stack' => array(
             'cdientity' => __DIR__ . '/../view',
@@ -93,7 +98,7 @@ return array(
             'cmain' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/cdientity/main[/:action][/:id]',
+                    'route' => '/cdientity/main[/:action][/:id][/:eid]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]+',

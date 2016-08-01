@@ -53,7 +53,9 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             array("name" => 'ORM\Id'),
             array("name" => 'ORM\Column(type="integer")'),
             array("name" => 'ORM\GeneratedValue(strategy="AUTO")'),
+            array("name" => 'Annotation\Attributes({"type":"hidden"})'),
             array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")'),
+            
         );
         $d->setTags($a);
         $p->setDocBlock($d);
@@ -169,7 +171,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                         array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -195,7 +198,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -222,7 +226,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -249,7 +254,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -275,7 +281,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -301,7 +308,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -328,7 +336,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -356,7 +365,8 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
@@ -383,12 +393,13 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     );
                 } else if ($property->getHidden()) {
                     $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})')
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                        array("name" => 'Annotation\Options({"label":"' . $label . '","empty_option": "","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '","empty_option": "'.$property->getRelatedEntity()->getName().'","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
                     );
                 }
 
