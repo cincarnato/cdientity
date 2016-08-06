@@ -42,8 +42,14 @@ class PropertyController extends AbstractActionController {
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
-        $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
+        $grid->addDelOption("Del", "left", "btn btn-danger fa fa-trash");
         $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
+        
+        
+         $grid->classTdColumn('View', "text-center col-md-1");
+        $grid->classTdColumn('Edit', "text-center col-md-1");
+        $grid->classTdColumn('Del', "text-center col-md-1");
+        
         $grid->setTableClass("table-condensed customClass");
         $grid->prepare();
         if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {

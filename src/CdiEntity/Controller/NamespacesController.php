@@ -35,12 +35,18 @@ class NamespacesController extends AbstractActionController {
         $grid->hiddenColumn('updatedAt');
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
+        $grid->hiddenColumn('entities');
 
-        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/entity/abm/{{id}}#E' ></a>", "left", false);
+        $grid->addExtraColumn("Entities", "<a class='btn btn-warning fa fa-database' href='/cdientity/entity/abm/{{id}}#E' ></a>", "left", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
-        $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
+        $grid->addDelOption("Del", "left", "btn btn-danger fa fa-trash");
         $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
         $grid->setTableClass("table-condensed customClass");
+        
+        $grid->classTdColumn('View', "text-center col-md-1");
+        $grid->classTdColumn('Edit', "text-center col-md-1");
+        $grid->classTdColumn('Del', "text-center col-md-1");
+         $grid->classTdColumn('Entities', "text-center col-md-1");
 
         $grid->prepare();
         return array('grid' => $grid);

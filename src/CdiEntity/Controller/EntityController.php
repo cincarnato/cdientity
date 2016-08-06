@@ -49,13 +49,21 @@ class EntityController extends AbstractActionController {
         $grid->hiddenColumn('updatedAt');
         $grid->hiddenColumn('createdBy');
         $grid->hiddenColumn('lastUpdatedBy');
+        $grid->hiddenColumn('properties');
 
-        $grid->addExtraColumn("<i class='fa fa-bars ' ></i>", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "left", false);
-        $grid->addExtraColumn("<i class='fa fa-book ' ></i>", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "left", false);
+        $grid->addExtraColumn("Properties", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "left", false);
+        $grid->addExtraColumn("ABM", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "left", false);
         $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
-        $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
+        $grid->addDelOption("Del", "left", "btn btn-danger fa fa-trash");
         $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
         $grid->setTableClass("table-condensed customClass");
+
+
+        $grid->classTdColumn('View', "text-center col-md-1");
+        $grid->classTdColumn('Edit', "text-center col-md-1");
+        $grid->classTdColumn('Del', "text-center col-md-1");
+        $grid->classTdColumn('Properties', "text-center col-md-1");
+        $grid->classTdColumn('ABM', "text-center col-md-1");
 
         $grid->prepare();
 
