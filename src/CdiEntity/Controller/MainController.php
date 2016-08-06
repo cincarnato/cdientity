@@ -92,7 +92,7 @@ class MainController extends AbstractActionController {
         $grid->addForceFilter("id",$idElement);
         
         $grid->prepare();
-        $view = new ViewModel(array('grid' => $grid));
+        $view = new ViewModel(array('grid' => $grid,'entity' => $entity));
         if ($this->getRequest()->isXmlHttpRequest()) {
             $view->setTerminal(true);
         }
