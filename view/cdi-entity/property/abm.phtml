@@ -1,48 +1,37 @@
-
-<div class="row">
-    <div class="col-md-12 col-sm-12">
-
-        <div class="panel panel-default">
-
-            <div class="panel-header">
-                <h4 class="panel-title" name="E" id="E">
-                    <?php echo $this->entity; ?>
-                </h4>
-            </div> <!-- /.panel-header -->
-
-            <div class="panel-body">
-
-                <?php if ($this->result !== null): ?>
-
-                    <?php if ($this->result): ?>
-                        <div class="alert alert-success">Se actualizo el esquema</div>
-
-                    <?php else: ?>
-                        <div class="alert alert-danger">Error al actualizar el esquema. Por favor contacte a soporte. Error:<?php echo $this->exec; ?></div>
-                    <?php endif; ?>
-
-                <?php else: ?>
-                    <div class="alert alert-warning">Sin actualizacion de esquema</div>
-                <?php endif; ?>
-
-                <?php if ($this->buttonPersistEnable): ?>
-                    <div>
-                        <a class="btn btn-danger" href="/cdientity/entity/update/<?php echo $this->entity->getId(); ?>">Persist Change on Entity</a>
-
-                    </div>
-
-                <?php endif; ?>
+<br>
+<div class="clearfix"></div>
+<div>
+    <h4 class="center" name="E" id="E">
+        <?php echo $this->entity; ?>
+    </h4>
+</div>
 
 
-                <?php echo $this->CdiGrid($this->grid); ?>
 
+<?php if ($this->result !== null): ?>
 
-            </div> <!-- /.panel-body -->
+    <?php if ($this->result): ?>
+        <div class="alert alert-success">Se actualizo el esquema</div>
 
-        </div> <!-- /.panel -->
+    <?php else: ?>
+        <div class="alert alert-danger">Error al actualizar el esquema. Por favor contacte a soporte. Error:<?php echo $this->exec; ?></div>
+    <?php endif; ?>
+
+<?php else: ?>
+    <div class="alert alert-warning">Sin actualizacion de esquema</div>
+<?php endif; ?>
+
+<?php if ($this->buttonPersistEnable): ?>
+    <div>
+        <a class="btn btn-danger" href="/cdientity/entity/update/<?php echo $this->entity->getId(); ?>">Persist Change on Entity</a>
 
     </div>
-</div>
+
+<?php endif; ?>
+
+
+<?php echo $this->CdiGrid($this->grid); ?>
+
 
 <script>
 
