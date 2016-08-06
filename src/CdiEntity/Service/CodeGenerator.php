@@ -55,7 +55,6 @@ class CodeGenerator implements ServiceManagerAwareInterface {
             array("name" => 'ORM\GeneratedValue(strategy="AUTO")'),
             array("name" => 'Annotation\Attributes({"type":"hidden"})'),
             array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")'),
-            
         );
         $d->setTags($a);
         $p->setDocBlock($d);
@@ -172,11 +171,38 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 } else if ($property->getHidden()) {
                     $aForm = array(
                         array("name" => 'Annotation\Attributes({"type":"hidden"})'),
-                         array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
                     );
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Attributes({"type":"text"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
+                    );
+                }
+
+                $aDoctrine = array(
+                    array("name" => 'ORM\Column(type="string", length=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")')
+                );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
+                $d->setTags($a);
+                break;
+            case "stringarea":
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"textarea"})'),
                         array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
                     );
                 }
@@ -399,7 +425,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 } else {
                     $aForm = array(
                         array("name" => 'Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")'),
-                        array("name" => 'Annotation\Options({"label":"' . $label . '","empty_option": "'.$property->getRelatedEntity()->getName().'","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '","empty_option": "' . $property->getRelatedEntity()->getName() . '","target_class":"' . $property->getRelatedEntity()->getFullName() . '", "description":"' . $property->getDescription() . '"})'),
                     );
                 }
 
