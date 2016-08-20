@@ -448,6 +448,16 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 );
                 $d->setTags($a);
                 break;
+             case "manyToMany":
+
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+                //Debo remplazar strtolower($entity->getName()) por una busqueda de la propiedad que tiene la relacion
+                $a = array(
+                    array("name" => 'Annotation\Exclude()'),
+                    array("name" => 'ORM\ManyToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),
+                );
+                $d->setTags($a);
+                break;
         }
         return $d;
     }
