@@ -271,6 +271,34 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $d->setTags($a);
                 break;
+                        case "time":
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Time")'),
+                        array("name" => 'Annotation\Attributes({"type":"time"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
+                    );
+                }
+
+                $aDoctrine = array(
+                    array("name" => 'ORM\Column(type="time", unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")')
+                );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
+                $d->setTags($a);
+                break;
             case "integer":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
 
@@ -448,10 +476,17 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 );
                 $d->setTags($a);
                 break;
-             case "manyToMany":
+            case "manyToMany":
 
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
                 //Debo remplazar strtolower($entity->getName()) por una busqueda de la propiedad que tiene la relacion
+                if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
+                    );
+                }
+
                 $a = array(
                     array("name" => 'Annotation\Exclude()'),
                     array("name" => 'ORM\ManyToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '")'),

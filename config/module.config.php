@@ -44,7 +44,7 @@ return array(
                 'uri' => '#',
                 'detail' => "",
                 'icon' => 'fa fa-puzzle-piece ',
-                'resource' => 'adm',
+                'resource' => 'admin',
                 'privilege' => 'abm',
                 'uri' => '/cdientity/namespaces/abm',
 
