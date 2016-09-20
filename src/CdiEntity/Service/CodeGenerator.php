@@ -472,7 +472,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                 //Debo remplazar strtolower($entity->getName()) por una busqueda de la propiedad que tiene la relacion
                 $a = array(
                     array("name" => 'Annotation\Exclude()'),
-                    array("name" => 'ORM\OneToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '", mappedBy="' . strtolower($entity->getName()) . '")'),
+                    array("name" => 'ORM\OneToMany(targetEntity="' . $property->getRelatedEntity()->getFullName() . '", mappedBy="' . lcfirst($entity->getName()) . '")'),
                 );
                 $d->setTags($a);
                 break;
