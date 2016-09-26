@@ -63,6 +63,15 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
      * @ORM\Column(type="string", length=100, unique=false, nullable=true, name="extends")
      */
     protected $extends;
+    
+      /**
+     * @var string
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Custom Table:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":500}})
+     * @ORM\Column(type="string", length=500, unique=false, nullable=true, name="custom_on_table")
+     */
+    protected $customOnTable;
 
     
     
@@ -141,6 +150,14 @@ class Entity extends \CdiCommons\Entity\BaseEntity{
 
     function setNamespace($namespace) {
         $this->namespace = $namespace;
+    }
+
+    function getCustomOnTable() {
+        return $this->customOnTable;
+    }
+
+    function setCustomOnTable($customOnTable) {
+        $this->customOnTable = $customOnTable;
     }
 
 
