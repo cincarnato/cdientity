@@ -40,6 +40,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $class->addUse("Doctrine\Common\Collections\ArrayCollection");
         $class->addUse("Zend\Form\Annotation");
         $class->addUse("Doctrine\ORM\Mapping", "ORM");
+        $class->addUse("Doctrine\ORM\Mapping\UniqueConstraint", "UniqueConstraint");
 
         if ($entity->getExtends()) {
             $class->setExtendedClass($entity->getExtends());
@@ -271,7 +272,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
 
                 $d->setTags($a);
                 break;
-                        case "time":
+            case "time":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
 
                 if ($property->getExclude()) {
