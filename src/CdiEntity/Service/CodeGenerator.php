@@ -32,7 +32,7 @@ class CodeGenerator implements ServiceManagerAwareInterface {
         $dc = new \Zend\Code\Generator\DocBlockGenerator();
         $a = array(
             array("name" => 'ORM\Entity'),
-            array("name" => 'ORM\Table(name="' . $namespace->getPrefix() . '_' . $entity->getTblName() . '")'),
+            array("name" => 'ORM\Table(name="' . $namespace->getPrefix() . '_' . $entity->getTblName() . '"' . $entity->getCustomOnTable() . ')'),
         );
         $dc->setTags($a);
         $class->setDocBlock($dc);
