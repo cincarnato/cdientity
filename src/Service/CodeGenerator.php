@@ -370,8 +370,12 @@ class CodeGenerator implements ServiceManagerAwareInterface {
                     $aForm = array(
                         array("name" => 'Annotation\Type("Zend\Form\Element\Checkbox")'),
                         array("name" => 'Annotation\Attributes({"type":"checkbox"})'),
-                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})')
                     );
+                }
+
+                if ($property->getBeNullable()) {
+                    $aForm = array(array("name" => 'Annotation\AllowEmpty({"true"}) '));
                 }
 
                 $aDoctrine = array(
