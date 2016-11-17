@@ -1,8 +1,8 @@
 {
-    "name":        "cdi/cdientity",
+    "name": "cdi/cdientity",
     "description": "Zend Framework 2 Module that provides a ABM Doctrine Entity",
-    "type":        "library",
-    "license":     "WTFPL",
+    "type": "library",
+    "license": "WTFPL",
     "keywords": [
         "entity",
         "doctrine",
@@ -10,30 +10,19 @@
         "module",
         "Zend Framework"
     ],
-    
     "authors": [{
-        "name": "Cristian Incarnato",
-        "email": "cristian.cdi@gmail.com"
-    }],
-    
+            "name": "Cristian Incarnato",
+            "email": "cristian.cdi@gmail.com"
+        }],
     "minimum-stability": "dev",
-    
     "config": {
-    	"process-timeout": 5000
+        "process-timeout": 5000
     },
-
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.5",
+        "doctrine/doctrine-orm-module": "^1.0",
+        "gedmo/doctrine-extensions": "^2.4.24"
     },
-    "require-dev": {
-        "zendframework/zendframework": "~2.2",
-        "doctrine/doctrine-orm-module": ">=0.8"
-    },
-    
-    "suggest" : {
-        "doctrine/doctrine-orm-module": ">=0.8"
-    },
-    
     "autoload": {
         "psr-4": {
             "CdiEntity\\": "src/"

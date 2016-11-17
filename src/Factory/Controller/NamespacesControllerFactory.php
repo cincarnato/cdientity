@@ -4,8 +4,6 @@ namespace CdiEntity\Factory\Controller;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Application\Controller;
-use CdiDataGrid\Source\Doctrine\DoctrineSource;
 
 class NamespacesControllerFactory implements FactoryInterface {
 
@@ -13,11 +11,11 @@ class NamespacesControllerFactory implements FactoryInterface {
 
        
         /* @var $grid \CdiDataGrid\Grid */
-        $grid = $container->build("CdiDatagridDoctrine", ["customOptionsKey" => "cdigridConfigOne"]);
+        $grid = $container->build("CdiDatagridDoctrine", ["customOptionsKey" => "cdiEntityNamespace"]);
       
         
         $em = $container->get('Doctrine\ORM\EntityManager');
-        return new Controller\GridController($em, $grid);
+        return new \CdiEntity\Controller\NamespacesController($em, $grid);
     }
 
 }

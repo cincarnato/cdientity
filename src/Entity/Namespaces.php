@@ -13,7 +13,7 @@ use Zend\Form\Annotation;
  *
  * @author Cristian Incarnato
  */
-class Namespaces extends \CdiCommons\Entity\BaseEntity {
+class Namespaces extends \CdiEntity\Entity\BaseEntity {
 
     /**
      * @var int

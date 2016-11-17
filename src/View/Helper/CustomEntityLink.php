@@ -3,9 +3,7 @@
 namespace CdiEntity\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use CdiDataGrid\DataGrid\Column\InterfaceColumn;
+use CdiDataGrid\Column\ColumnInterface;
 
 /**
  * @author cincarnato
@@ -22,7 +20,7 @@ class CustomEntityLink extends AbstractHelper {
      * @param  array $data
      * @return string
      */
-    public function __invoke(InterfaceColumn $column, array $data) {
+    public function __invoke(ColumnInterface $column, array $data) {
 
 
 
@@ -36,10 +34,10 @@ class CustomEntityLink extends AbstractHelper {
      * @param  array $data
      * @return string
      */
-    public function render(InterfaceColumn $column, array $data) {
+    public function render(ColumnInterface $column, array $data) {
         
         $value = $data[$column->getName()];
-        $customData = $column->getCustomData();
+        $customData = $column->getData();
         $eid = $customData["eid"];
       //  var_dump($data[$column->getName()]);
         if($data[$column->getName()]){

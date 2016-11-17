@@ -4,7 +4,7 @@ namespace CdiEntity\Factory\Controller;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Application\Controller;
+use CdiEntity\Controller;
 use CdiDataGrid\Source\Doctrine\DoctrineSource;
 
 class MainControllerFactory implements FactoryInterface {
@@ -13,11 +13,11 @@ class MainControllerFactory implements FactoryInterface {
 
        
         /* @var $grid \CdiDataGrid\Grid */
-        $grid = $container->build("CdiDatagridDoctrine", ["customOptionsKey" => "cdigridConfigOne"]);
+        $grid = $container->build("CdiDatagrid");
       
         
         $em = $container->get('Doctrine\ORM\EntityManager');
-        return new Controller\GridController($em, $grid);
+        return new Controller\MainController($em, $grid);
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
-
-return array(
+namespace CdiEntity;
+$setting =  array(
     'cdientity_options' => array(
         'script_update_schema' => '',
         'autoupdate' => false
@@ -10,21 +10,13 @@ return array(
             // overriding zfc-user-doctrine-orm's config
             'cdientity_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'paths' => __DIR__ . '/../src/CdiEntity/Entity',
+                'paths' => __DIR__ . '/../src/Entity',
             ),
             'orm_default' => array(
                 'drivers' => array(
                     'CdiEntity\Entity' => 'cdientity_entity',
                 ),
             ),
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
-            'CdiEntity\Controller\Namespaces' => 'CdiEntity\Controller\NamespacesController',
-            'CdiEntity\Controller\Entity' => 'CdiEntity\Controller\EntityController',
-            'CdiEntity\Controller\Property' => 'CdiEntity\Controller\PropertyController',
-            'CdiEntity\Controller\Main' => 'CdiEntity\Controller\MainController',
         ),
     ),
       'view_helpers' => array(
@@ -44,8 +36,7 @@ return array(
                 'uri' => '#',
                 'detail' => "",
                 'icon' => 'fa fa-puzzle-piece ',
-                'resource' => 'admin',
-                'privilege' => 'abm',
+                'permission' => 'grid.show',
                 'uri' => '/cdientity/namespaces/abm',
 
             ),
@@ -62,7 +53,7 @@ return array(
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'CdiEntity\Controller\Entity',
+                        'controller' => Controller\EntityController::class,
                         'action' => 'abm',
                     ),
                 ),
@@ -76,7 +67,7 @@ return array(
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'CdiEntity\Controller\Property',
+                        'controller' => Controller\PropertyController::class,
                         'action' => 'abm',
                     ),
                 ),
@@ -90,7 +81,7 @@ return array(
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'CdiEntity\Controller\Namespaces',
+                        'controller' => Controller\NamespacesController::class,
                         'action' => 'abm',
                     ),
                 ),
@@ -104,13 +95,18 @@ return array(
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'CdiEntity\Controller\Main',
+                        'controller' => Controller\MainController::class,
                         'action' => 'abm',
                     ),
                 ),
             ),
         ),
     ),
+    
 );
 
+$cdiDatagridCustomConfig = include 'cdi-datagrid-custom.config.php';
 
+$setting = array_merge($setting,$cdiDatagridCustomConfig);
+
+return $setting;

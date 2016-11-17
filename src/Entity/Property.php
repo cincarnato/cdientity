@@ -13,7 +13,7 @@ use Zend\Form\Annotation;
  *
  * @author Cristian Incarnato
  */
-class Property extends \CdiCommons\Entity\BaseEntity {
+class Property extends \CdiEntity\Entity\BaseEntity {
 
     /**
      * @var int
@@ -54,9 +54,8 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @Annotation\Attributes({"onchange":"changetype()"}) 
      */
     protected $type;
-    
-    
-     /**
+
+    /**
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Options({
      * "label":"Related Entity:",
@@ -67,7 +66,6 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @ORM\JoinColumn(name="related_entity_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $relatedEntity;
-    
 
     /**
      * @var string
@@ -76,17 +74,16 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @ORM\Column(type="integer", length=11, unique=false, nullable=true, name="length")
      */
     protected $length;
-    
-    
-     /**
+
+    /**
      * @var string
      * @Annotation\Options({"label":"Absolutepath:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":200}})
      * @ORM\Column(type="string", length=200, unique=false, nullable=true, name="absolutepath")
      */
     protected $absolutepath;
-    
-      /**
+
+    /**
      * @var string
      * @Annotation\Options({"label":"WebPath:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
@@ -98,8 +95,9 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @var string
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_unique")
      * @Annotation\Type("Zend\Form\Element\Checkbox")
-     *  @Annotation\Attributes({"type":"checkbox"})
+     * @Annotation\Attributes({"type":"checkbox"})
      * @Annotation\Options({"label":"Unique:"})
+     * @Annotation\AllowEmpty({"true"})
      */
     protected $beUnique;
 
@@ -108,45 +106,47 @@ class Property extends \CdiCommons\Entity\BaseEntity {
      * @Annotation\Type("Zend\Form\Element\Checkbox") 
      * @Annotation\Attributes({"type":"checkbox", "value": "1"})
      * @Annotation\Options({"label":"Nulleable:", "value": "1"})
+     * @Annotation\AllowEmpty({"true"})
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="be_nullable")
      */
     protected $beNullable = true;
 
-      /**
+    /**
      * @var string
      * @Annotation\Options({"label":"Label:", "description": ""})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":200}})
      * @ORM\Column(type="string", length=200, unique=false, nullable=true, name="label")
      */
     protected $label;
-    
-    
-         /**
+
+    /**
      * @var string
      * @Annotation\Options({"label":"Description:", "description": ""})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":500}})
      * @ORM\Column(type="string", length=500, unique=false, nullable=true, name="description")
      */
     protected $description;
-    
-     /**
+
+    /**
      * @var string
      * @Annotation\Type("Zend\Form\Element\Checkbox") 
      * @Annotation\Attributes({"type":"checkbox", "value": "1"})
      * @Annotation\Options({"label":"Exclude:", "value": "0"})
+     * @Annotation\AllowEmpty({"true"})
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="exclude")
      */
     protected $exclude = false;
-    
-        /**
+
+    /**
      * @var string
      * @Annotation\Type("Zend\Form\Element\Checkbox") 
      * @Annotation\Attributes({"type":"checkbox"})
      * @Annotation\Options({"label":"Hidden:", "value": "0"})
+     * @Annotation\AllowEmpty({"true"})
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="hidden")
      */
     protected $hidden = false;
-    
+
     public function __construct() {
         
     }
@@ -214,7 +214,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     function setBeNullable($beNullable) {
         $this->beNullable = $beNullable;
     }
-    
+
     function getRelatedEntity() {
         return $this->relatedEntity;
     }
@@ -223,11 +223,10 @@ class Property extends \CdiCommons\Entity\BaseEntity {
         $this->relatedEntity = $relatedEntity;
     }
 
-    
     public function __toString() {
         return $this->name;
     }
-    
+
     function getAbsolutepath() {
         return $this->absolutepath;
     }
@@ -243,7 +242,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     function setWebpath($webpath) {
         $this->webpath = $webpath;
     }
-    
+
     function getLabel() {
         return $this->label;
     }
@@ -260,7 +259,6 @@ class Property extends \CdiCommons\Entity\BaseEntity {
         $this->description = $description;
     }
 
-
     function getExclude() {
         return $this->exclude;
     }
@@ -268,7 +266,7 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     function setExclude($exclude) {
         $this->exclude = $exclude;
     }
-    
+
     function getHidden() {
         return $this->hidden;
     }
@@ -276,10 +274,5 @@ class Property extends \CdiCommons\Entity\BaseEntity {
     function setHidden($hidden) {
         $this->hidden = $hidden;
     }
-
-
-
-
-
 
 }

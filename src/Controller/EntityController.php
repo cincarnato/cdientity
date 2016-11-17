@@ -6,81 +6,85 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class EntityController extends AbstractActionController {
 
-    /**
-     * @var Doctrine\ORM\EntityManager
+       /**
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
-    public function setEntityManager(EntityManager $em) {
-        $this->em = $em;
-    }
 
-    public function getEntityManager() {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        }
+    /**
+     * Description
+     * 
+     * @var \CdiDataGrid\Grid 
+     */
+    protected $grid;
+    
+        protected $codeGenerator;
+    
+    function getEm() {
         return $this->em;
     }
 
+    function getGrid() {
+        return $this->grid;
+    }
+
+    function setEm(\Doctrine\ORM\EntityManager $em) {
+        $this->em = $em;
+    }
+
+    function setGrid(\CdiDataGrid\Grid $grid) {
+        $this->grid = $grid;
+    }
+
+    
+    function __construct(\Doctrine\ORM\EntityManager $em, \CdiDataGrid\Grid $grid,$codeGenerator) {
+        $this->em = $em;
+        $this->grid = $grid;
+          $this->codeGenerator = $codeGenerator;
+    }
+    
+    
     public function abmAction() {
 
         $id = $this->params("id");
         if ($id) {
-            $query = $this->getEntityManager()->createQueryBuilder()
+            $query = $this->getEm()->createQueryBuilder()
                     ->select('u')
-                    ->from('CdiEntity\Entity\Entity', 'u')
+                    ->from('\CdiEntity\Entity\Entity', 'u')
                     ->where("u.namespace = :id")
                     ->setParameter("id", $id);
         } else {
-            $query = $this->getEntityManager()->createQueryBuilder()
+            $query = $this->getEm()->createQueryBuilder()
                     ->select('u')
-                    ->from('CdiEntity\Entity\Entity', 'u');
+                    ->from('\CdiEntity\Entity\Entity', 'u');
         }
 
 
-        $grid = $this->getServiceLocator()->get('cdiGrid');
-        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), '\CdiEntity\Entity\Entity', $query);
-        $grid->setSource($source);
-        $grid->setRecordPerPage(20);
-        $grid->datetimeColumn('createdAt', 'Y-m-d H:i:s');
-        $grid->datetimeColumn('updatedAt', 'Y-m-d H:i:s');
-        $grid->datetimeColumn('expiration', 'Y-m-d H:i:s');
-        $grid->hiddenColumn('createdAt');
-        $grid->hiddenColumn('updatedAt');
-        $grid->hiddenColumn('createdBy');
-        $grid->hiddenColumn('lastUpdatedBy');
-        $grid->hiddenColumn('properties');
-
-        $grid->addExtraColumn("Properties", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "left", false);
-        $grid->addExtraColumn("ABM", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "left", false);
-        $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
-        $grid->addDelOption("Del", "left", "btn btn-danger fa fa-trash");
-        $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
-        $grid->setTableClass("table-condensed customClass");
+        $source = new \CdiDataGrid\Source\DoctrineSource($this->getEm(), '\CdiEntity\Entity\Entity', $query);
+        $this->grid->setSource($source);
 
 
-        $grid->classTdColumn('View', "text-center col-md-1");
-        $grid->classTdColumn('Edit', "text-center col-md-1");
-        $grid->classTdColumn('Del', "text-center col-md-1");
-        $grid->classTdColumn('Properties', "text-center col-md-1");
-        $grid->classTdColumn('ABM', "text-center col-md-1");
 
-        $grid->prepare();
+         $this->grid->addExtraColumn("Properties", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "right", false);
+         $this->grid->addExtraColumn("ABM", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "right", false);
+
+
+         $this->grid->prepare();
 
         if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {
-            $grid->getEntityForm()->get("namespace")->setValue($id);
+             $this->grid->getSource()->getCrudForm()->get("namespace")->setValue($id);
         }
 
-        return array('grid' => $grid);
+        return array('grid' => $this->grid);
     }
 
     public function updateAction() {
         $id = $this->params("id");
 
-        $entity = $this->getEntityManager()->getRepository('\CdiEntity\Entity\Entity')->find($id);
+        $entity = $this->getEm()->getRepository('\CdiEntity\Entity\Entity')->find($id);
 
-        $updateEntity = $this->getServiceLocator()->get('cdientity_generate_entity');
-        $exec = $updateEntity->update($entity, true);
+        $exec = $this->codeGenerator->update($entity, true);
 
         if (preg_match("/Database\sschema\supdated/", $exec)) {
             $result = true;

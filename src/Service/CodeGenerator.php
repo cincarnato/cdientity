@@ -2,7 +2,7 @@
 
 namespace CdiEntity\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
+
 
 /**
  * TITLE
@@ -13,7 +13,7 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
  *
  * @package Paquete
  */
-class CodeGenerator implements ServiceManagerAwareInterface {
+class CodeGenerator  {
 
     /**
      * @var ServiceManager

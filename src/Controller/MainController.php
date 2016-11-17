@@ -4,22 +4,53 @@ namespace CdiEntity\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
 class MainController extends AbstractActionController {
 
     /**
-     * @var Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
-    public function setEntityManager(EntityManager $em) {
+    /**
+     * Description
+     * 
+     * @var \CdiDataGrid\Grid 
+     */
+    protected $grid;
+    protected $columnsConfig = [
+        "createdAt" => [
+                "type" => "date",
+                "displayName" => "Creado en Fecha",
+                "format" => "Y-m-d H:i:s"
+            ],
+            "updatedAt" => [
+                "type" => "date",
+                "displayName" => "Ultima Actualizacion",
+                "format" => "Y-m-d H:i:s"
+            ],
+        
+    ];
+
+    function getEm() {
+        return $this->em;
+    }
+
+    function getGrid() {
+        return $this->grid;
+    }
+
+    function setEm(\Doctrine\ORM\EntityManager $em) {
         $this->em = $em;
     }
 
-    public function getEntityManager() {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        }
-        return $this->em;
+    function setGrid(\CdiDataGrid\Grid $grid) {
+        $this->grid = $grid;
+    }
+
+    function __construct(\Doctrine\ORM\EntityManager $em, \CdiDataGrid\Grid $grid) {
+        $this->em = $em;
+        $this->grid = $grid;
     }
 
     public function abmAction() {
@@ -28,7 +59,7 @@ class MainController extends AbstractActionController {
 
 
 
-        $query = $this->getEntityManager()->createQueryBuilder()
+        $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")
@@ -36,23 +67,15 @@ class MainController extends AbstractActionController {
         $entity = $query->getQuery()->getOneOrNullResult();
 
 
-        $grid = $this->getServiceLocator()->get('cdiGrid');
-        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), $entity->getFullName());
-        $grid->setSource($source);
-        $grid->setRecordPerPage(100);
-        $grid->datetimeColumn('createdAt', 'Y-m-d H:i:s');
-        $grid->datetimeColumn('updatedAt', 'Y-m-d H:i:s');
-        $grid->datetimeColumn('expiration', 'Y-m-d H:i:s');
-        $grid->hiddenColumn('createdAt');
-        $grid->hiddenColumn('updatedAt');
-        $grid->hiddenColumn('createdBy');
-        $grid->hiddenColumn('lastUpdatedBy');
+        $source = new \CdiDataGrid\Source\DoctrineSource($this->getEm(), $entity->getFullName());
+        $this->grid->setSource($source);
 
 
         foreach ($entity->getProperties() as $property) {
             if ($property->getType() == "oneToMany") {
-                $grid->hiddenColumn($property->getName());
-                $grid->addExtraColumn("<i class='fa fa-tree ' >" . $property->getName() . "</i>", "<a class='btn btn-warning fa fa-tree' href='/cdientity/main/onetomany/" . $entity->getId() . "/{{id}}/" . $property->getRelatedEntity()->getId() . "' ></a>", "right", false);
+                //$grid->hiddenColumn($property->getName());
+                $this->columnsConfig[$property->getName()]["hidden"] = true;
+                $this->grid->addExtraColumn("<i class='fa fa-tree ' >" . $property->getName() . "</i>", "<a class='btn btn-warning fa fa-tree' href='/cdientity/main/onetomany/" . $entity->getId() . "/{{id}}/" . $property->getRelatedEntity()->getId() . "' ></a>", "right", false);
             }
 
             if ($property->getType() == "manyToOne" || $property->getType() == "oneToOne") {
@@ -62,37 +85,50 @@ class MainController extends AbstractActionController {
                     "eid" => $property->getRelatedEntity()->getId()
                 );
 
-                $grid->customHelperColumn($property->getName(), "CustomEntityLink", $customData);
-            }
+                $this->columnsConfig[$property->getName()]["type"] = 'custom';
+                $this->columnsConfig[$property->getName()]["helper"] = "CustomEntityLink";
+                $this->columnsConfig[$property->getName()]["data"] = $customData;
 
+                //$this->grid->customHelperColumn($property->getName(), "CustomEntityLink", $customData);
+            }
+            
+            //echo $property->getType()." ".$property->getName();
             if ($property->getType() == "datetime") {
-                $grid->datetimeColumn($property->getName(), 'Y-m-d H:i:s');
+                $this->columnsConfig[$property->getName()]["type"] = 'datetime';
+                $this->columnsConfig[$property->getName()]["format"] = 'Y-m-d H:i:s';
+                //  $this->grid->datetimeColumn($property->getName(), 'Y-m-d H:i:s');
             }
 
             if ($property->getType() == "date") {
-                $grid->datetimeColumn($property->getName(), 'Y-m-d');
+                $this->columnsConfig[$property->getName()]["type"] = 'datetime';
+                $this->columnsConfig[$property->getName()]["format"] = 'Y-m-d';
+                // $grid->datetimeColumn($property->getName(), 'Y-m-d');
             }
 
 
             if ($property->getType() == "file") {
-                $grid->fileColumn($property->getName(), $property->getWebpath(), "50px", "30px");
+                $this->columnsConfig[$property->getName()]["type"] = 'file';
+                $this->columnsConfig[$property->getName()]["webpath"] = $property->getWebpath();
+                $this->columnsConfig[$property->getName()]["width"] = "50px";
+                $this->columnsConfig[$property->getName()]["height"] = "30px";
+                $this->grid->fileColumn($property->getName(), $property->getWebpath(), "50px", "30px");
             }
         }
 
-        $grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdientity/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
+        $this->grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdientity/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
 
-        $grid->addEditOption("Edit", "left", "btn btn-primary fa fa-edit");
-        $grid->addDelOption("Del", "left", "btn btn-danger fa fa-trash");
-        $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
-        $grid->setTableClass("table-condensed customClass");
-        $grid->setTemplate("ajax");
 
-         //ForceFilter
-        $idElement = new \Zend\Form\Element\Text("id");
-        $grid->addForceFilter("id",$idElement);
+        $this->grid->setTemplate("ajax");
+
+        //ForceFilter - TO CHECK
+//        $idElement = new \Zend\Form\Element\Text("id");
+//        $this->grid->addForceFilter("id", $idElement);
         
-        $grid->prepare();
-        $view = new ViewModel(array('grid' => $grid,'entity' => $entity));
+       
+        $this->grid->setColumnsConfig($this->columnsConfig);
+        
+        $this->grid->prepare();
+        $view = new ViewModel(array('grid' => $this->grid, 'entity' => $entity));
         if ($this->getRequest()->isXmlHttpRequest()) {
             $view->setTerminal(true);
         }
@@ -105,14 +141,14 @@ class MainController extends AbstractActionController {
         //ID of Entity to filter and select
         $eid = $this->params("eid");
 
-        $query = $this->getEntityManager()->createQueryBuilder()
+        $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")
                 ->setParameter("id", $eid);
         $rentity = $query->getQuery()->getOneOrNullResult();
 
-        $query = $this->getEntityManager()->createQueryBuilder()
+        $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from($rentity->getFullName(), 'u')
                 ->where("u.id = :id")
@@ -132,7 +168,7 @@ class MainController extends AbstractActionController {
         $rid = $this->params("rid");
 
 
-        $query = $this->getEntityManager()->createQueryBuilder()
+        $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")
@@ -140,7 +176,7 @@ class MainController extends AbstractActionController {
         $entity = $query->getQuery()->getOneOrNullResult();
 
 
-        $query = $this->getEntityManager()->createQueryBuilder()
+        $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")
@@ -149,7 +185,7 @@ class MainController extends AbstractActionController {
 
 
 
-        $query = $this->getEntityManager()->createQueryBuilder()
+        $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from($rentity->getFullName(), 'u')
                 ->where("u." . $entity->getName() . " = :id")
@@ -157,7 +193,7 @@ class MainController extends AbstractActionController {
 
 
         $grid = $this->getServiceLocator()->get('cdiGrid');
-        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEntityManager(), $rentity->getFullName(), $query);
+        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEm(), $rentity->getFullName(), $query);
         $grid->setSource($source);
         $grid->setRecordPerPage(20);
         $grid->datetimeColumn('createdAt', 'Y-m-d H:i:s');
