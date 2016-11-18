@@ -109,16 +109,17 @@ class MainController extends AbstractActionController {
             if ($property->getType() == "file") {
                 $this->columnsConfig[$property->getName()]["type"] = 'file';
                 $this->columnsConfig[$property->getName()]["webpath"] = $property->getWebpath();
-                $this->columnsConfig[$property->getName()]["width"] = "50px";
-                $this->columnsConfig[$property->getName()]["height"] = "30px";
-                $this->grid->fileColumn($property->getName(), $property->getWebpath(), "50px", "30px");
+                $this->columnsConfig[$property->getName()]["width"] = "220px";
+                $this->columnsConfig[$property->getName()]["height"] = "75px";
+                  $this->columnsConfig[$property->getName()]["showFile"] = true;
+               // $this->grid->fileColumn($property->getName(), $property->getWebpath(), "50px", "30px");
             }
         }
 
         $this->grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdientity/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
 
 
-        $this->grid->setTemplate("ajax");
+        $this->grid->setTemplate("default");
 
         //ForceFilter - TO CHECK
 //        $idElement = new \Zend\Form\Element\Text("id");
