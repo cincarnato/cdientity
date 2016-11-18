@@ -1,14 +1,15 @@
 {
     "name": "cdi/cdientity",
-    "description": "Zend Framework 2 Module that provides a ABM Doctrine Entity",
+    "description": "Zend Framework 3 Module that provides a ABM Doctrine Entity",
     "type": "library",
     "license": "WTFPL",
+    "version": "4.0.0",
     "keywords": [
         "entity",
         "doctrine",
         "zf2",
         "module",
-        "Zend Framework"
+        "Zend Framework 3"
     ],
     "authors": [{
             "name": "Cristian Incarnato",
@@ -20,6 +21,7 @@
     },
     "require": {
         "php": ">=5.5",
+        "cdi/cdidatagrid": "^3.1.2",
         "doctrine/doctrine-orm-module": "^1.0",
         "gedmo/doctrine-extensions": "^2.4.24"
     },
