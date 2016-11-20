@@ -66,8 +66,8 @@ class EntityController extends AbstractActionController {
 
 
 
-         $this->grid->addExtraColumn("Properties", "<a class='btn btn-warning fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "right", false);
-         $this->grid->addExtraColumn("ABM", "<a class='btn btn-primary fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "right", false);
+         $this->grid->addExtraColumn("Properties", "<a class='btn btn-warning btn-xs fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "right", false);
+         $this->grid->addExtraColumn("ABM", "<a class='btn btn-primary btn-xs fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "right", false);
 
 
          $this->grid->prepare();

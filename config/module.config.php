@@ -36,7 +36,7 @@ $setting =  array(
                 'uri' => '#',
                 'detail' => "",
                 'icon' => 'fa fa-puzzle-piece ',
-                'permission' => 'grid.show',
+                'permission' => 'cdientity',
                 'uri' => '/cdientity/namespaces/abm',
 
             ),
@@ -102,6 +102,16 @@ $setting =  array(
             ),
         ),
     ),
+     'zfc_rbac' => [
+        'guards' => [
+            'ZfcRbac\Guard\RouteGuard' => [
+                'centity' => ['admin'],
+                'cproperty' => ['admin'],
+                'cnamespaces' => ['admin'],
+                'cmain' => ['admin'],
+            ]
+        ],
+    ]
     
 );
 

@@ -44,7 +44,7 @@ class NamespacesController extends AbstractActionController {
     }
 
     public function abmAction() {      
-        $this->grid->addExtraColumn("Entities", "<a class='btn btn-warning fa fa-database' href='/cdientity/entity/abm/{{id}}#E' ></a>", "right", false);
+        $this->grid->addExtraColumn("Entities", "<a class='btn btn-warning btn-xs fa fa-database' href='/cdientity/entity/abm/{{id}}#E' ></a>", "right", false);
         $this->grid->prepare();
         return array('grid' =>  $this->grid);
     }

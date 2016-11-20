@@ -25,6 +25,12 @@ $config = [
             "entities" => [
                 "hidden" => true
             ],
+            "path" => [
+                "hidden" => true
+            ],
+             "Entities" => [
+                "tdClass" => "text-center"
+            ]
         )
     ],
     "cdiEntityEntity" => [
@@ -42,6 +48,21 @@ $config = [
             "properties" => [
                 "hidden" => true
             ],
+            "extends" => [
+                "hidden" => true
+            ],
+            "customOnTable" => [
+                "hidden" => true
+            ],
+            "tblName" => [
+                "hidden" => true
+            ],
+            "ABM" => [
+                "tdClass" => "text-center"
+            ],
+             "Properties" => [
+                "tdClass" => "text-center"
+            ]
         )
     ],
     "cdiEntityProperty" => [
@@ -49,14 +70,28 @@ $config = [
             "createdAt" => [
                 "type" => "date",
                 "displayName" => "Creado en Fecha",
-                "format" => "Y-m-d H:i:s"
+                "format" => "Y-m-d H:i:s",
+                   "hidden" => true
             ],
             "updatedAt" => [
                 "type" => "date",
                 "displayName" => "Ultima Actualizacion",
-                "format" => "Y-m-d H:i:s"
+                "format" => "Y-m-d H:i:s",
+                   "hidden" => true
             ],
-            "properties" => [
+            "absolutepath" => [
+                "hidden" => true
+            ],
+            "webpath" => [
+                "hidden" => true
+            ],
+            "description" => [
+                "hidden" => true
+            ],
+            "label" => [
+                "hidden" => true
+            ],
+            "exclude" => [
                 "hidden" => true
             ],
         )

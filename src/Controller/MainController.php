@@ -116,7 +116,7 @@ class MainController extends AbstractActionController {
             }
         }
 
-        $this->grid->addExtraColumn("View", "<a class='btn btn-success fa fa-binoculars' href='/cdientity/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
+        $this->grid->addExtraColumn("View", "<a class='btn btn-success btn-xs fa fa-binoculars' href='/cdientity/main/view/{{id}}/" . $entity->getId() . "' ></a>", "left", false);
 
 
         $this->grid->setTemplate("default");
