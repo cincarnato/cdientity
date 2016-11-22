@@ -14,10 +14,11 @@ class EntityControllerFactory implements FactoryInterface {
           /* @var $grid \CdiDataGrid\Grid */
         $grid = $container->build("CdiDatagrid", ["customOptionsKey" => "cdiEntityEntity"]);
         
+        $options = $container->get('cdientity_options');
           $codeGenerator = $container->get('cdientity_generate_entity');
 
         $em = $container->get('Doctrine\ORM\EntityManager');
-        return new Controller\EntityController($em, $grid,$codeGenerator);
+        return new Controller\EntityController($em, $grid,$options,$codeGenerator);
     }
 
 }

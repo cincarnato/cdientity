@@ -20,7 +20,6 @@ return array(
 //        },
                 'cdientity_generate_entity' => function (ServiceLocatorInterface $sm) {
             $service = new \CdiEntity\Service\CodeGenerator();
-            $service->setServiceManager($sm);
             return $service;
         }
         ));

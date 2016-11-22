@@ -76,26 +76,9 @@ class PropertyController extends AbstractActionController {
         }
 
 
-        if ($this->options->getAutoupdate()) {
-
-            $exec = $this->codeGenerator->update($entity, true);
-
-            if (preg_match("/Database\sschema\supdated/", $exec)) {
-                $result = true;
-            } else if (preg_match("/error/", $exec)) {
-                $result = false;
-            } else if (preg_match("/Nothing\sto\supdate/", $exec)) {
-                $result = null;
-            }
-            $buttonPersistEnable = false;
-        } else {
-            $buttonPersistEnable = true;
-            $exec = "";
-            $result = null;
-        }
 
 
-        return array('grid' => $this->grid, "entity" => $entity, 'exec' => $exec, 'result' => $result, 'buttonPersistEnable' => $buttonPersistEnable);
+        return array('grid' => $this->grid, "entity" => $entity);
     }
 
 }

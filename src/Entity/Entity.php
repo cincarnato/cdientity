@@ -26,7 +26,7 @@ class Entity extends \CdiEntity\Entity\BaseEntity{
     /**
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Options({
-     * "label":"Entity:",
+     * "label":"Namespace:",
      * "empty_option": "",
      * "target_class":"CdiEntity\Entity\Namespaces",
      * "property": "name"})
@@ -93,7 +93,7 @@ class Entity extends \CdiEntity\Entity\BaseEntity{
     }
     
     function getFullName() {
-    return $this->namespace->getName()."\\".$this->name;
+    return $this->namespace->getName()."\Entity\\".$this->name;
     }
 
 

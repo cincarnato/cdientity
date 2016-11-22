@@ -3,6 +3,61 @@
 //AN EXAMPLE COLUMNS CONFIG
 
 $config = [
+    "cdiEntityController" => [
+        "sourceConfig" => [
+            "type" => "doctrine",
+            "doctrineOptions" => [
+                "entityName" => "\CdiEntity\Entity\Controller",
+                "entityManager" => "Doctrine\ORM\EntityManager"
+            ]
+        ],
+        "columnsConfig" => array(
+            "createdAt" => [
+                "type" => "date",
+                "displayName" => "Creado en Fecha",
+                "format" => "Y-m-d H:i:s",
+                 "hidden" => true
+            ],
+            "updatedAt" => [
+                "type" => "date",
+                "displayName" => "Ultima Actualizacion",
+                "format" => "Y-m-d H:i:s",
+                 "hidden" => true
+            ],
+            "childs" => [
+                "hidden" => true
+            ],
+        )
+    ],
+    "cdiEntityMenu" => [
+        "sourceConfig" => [
+            "type" => "doctrine",
+            "doctrineOptions" => [
+                "entityName" => "\CdiEntity\Entity\Menu",
+                "entityManager" => "Doctrine\ORM\EntityManager"
+            ]
+        ],
+        "columnsConfig" => array(
+            "createdAt" => [
+                "type" => "date",
+                "displayName" => "Creado en Fecha",
+                "format" => "Y-m-d H:i:s",
+                 "hidden" => true
+            ],
+            "updatedAt" => [
+                "type" => "date",
+                "displayName" => "Ultima Actualizacion",
+                "format" => "Y-m-d H:i:s",
+                 "hidden" => true
+            ],
+            "childs" => [
+                "hidden" => true
+            ],
+              "parent" => [
+                "type" => "relational"
+            ],
+        )
+    ],
     "cdiEntityNamespace" => [
         "sourceConfig" => [
             "type" => "doctrine",

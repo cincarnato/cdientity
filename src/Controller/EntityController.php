@@ -6,11 +6,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class EntityController extends AbstractActionController {
 
-       /**
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
-
 
     /**
      * Description
@@ -18,9 +17,21 @@ class EntityController extends AbstractActionController {
      * @var \CdiDataGrid\Grid 
      */
     protected $grid;
+
+    /**
+     * Description
+     * 
+     * @var \CdiEntity\Options\CdiEntityOptions
+     */
+    protected $options;
     
-        protected $codeGenerator;
-    
+       /**
+     * Description
+     * 
+     * @var \CdiEntity\Service\CodeGenerator
+     */
+    protected $codeGenerator;
+
     function getEm() {
         return $this->em;
     }
@@ -37,14 +48,32 @@ class EntityController extends AbstractActionController {
         $this->grid = $grid;
     }
 
-    
-    function __construct(\Doctrine\ORM\EntityManager $em, \CdiDataGrid\Grid $grid,$codeGenerator) {
-        $this->em = $em;
-        $this->grid = $grid;
-          $this->codeGenerator = $codeGenerator;
+    function getOptions() {
+        return $this->options;
     }
-    
-    
+
+ 
+    function setOptions(\CdiEntity\Options\CdiEntityOptions $options) {
+        $this->options = $options;
+    }
+
+    function getCodeGenerator() {
+        return $this->codeGenerator;
+    }
+
+    function setCodeGenerator(\CdiEntity\Service\CodeGenerator $codeGenerator) {
+        $this->codeGenerator = $codeGenerator;
+    }
+
+       
+
+    function __construct(\Doctrine\ORM\EntityManager $em, \CdiDataGrid\Grid $grid, \CdiEntity\Options\CdiEntityOptions $options, $codeGenerator) {
+        $this->setEm($em);
+        $this->setGrid($grid);
+        $this->setOptions($options);
+        $this->setCodeGenerator($codeGenerator);
+    }
+
     public function abmAction() {
 
         $id = $this->params("id");
@@ -66,14 +95,14 @@ class EntityController extends AbstractActionController {
 
 
 
-         $this->grid->addExtraColumn("Properties", "<a class='btn btn-warning btn-xs fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "right", false);
-         $this->grid->addExtraColumn("ABM", "<a class='btn btn-primary btn-xs fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "right", false);
+        $this->grid->addExtraColumn("Properties", "<a class='btn btn-warning btn-xs fa fa-bars' href='/cdientity/property/abm/{{id}}#E' ></a>", "right", false);
+        $this->grid->addExtraColumn("ABM", "<a class='btn btn-primary btn-xs fa fa-book' href='/cdientity/main/abm/{{id}}' ></a>", "right", false);
 
 
-         $this->grid->prepare();
+        $this->grid->prepare();
 
         if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {
-             $this->grid->getSource()->getCrudForm()->get("namespace")->setValue($id);
+            $this->grid->getSource()->getCrudForm()->get("namespace")->setValue($id);
         }
 
         return array('grid' => $this->grid);
@@ -84,7 +113,7 @@ class EntityController extends AbstractActionController {
 
         $entity = $this->getEm()->getRepository('\CdiEntity\Entity\Entity')->find($id);
 
-        $exec = $this->codeGenerator->update($entity, true);
+        $exec = $this->codeGenerator->generateEntity($entity, $this->getOptions());
 
         if (preg_match("/Database\sschema\supdated/", $exec)) {
             $result = true;
