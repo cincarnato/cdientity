@@ -71,7 +71,7 @@ class Menu extends \CdiEntity\Entity\BaseEntity {
      * @Annotation\Options({"label":"Label:", "description": ""})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @Annotation\Filter({"name": "Zend\Filter\StringTrim"})
-     * @ORM\Column(type="string", length=100, unique=false, nullable=false)
+     * @ORM\Column(type="string", length=100, unique=false, nullable=true)
      */
     protected $label;
 
@@ -107,10 +107,19 @@ class Menu extends \CdiEntity\Entity\BaseEntity {
      * @Annotation\Options({"label":"Permission:", "description": ""})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
      * @Annotation\Filter({"name": "Zend\Filter\StringTrim"})
-     * @ORM\Column(type="string", length=100, unique=false, nullable=false)
+     * @ORM\Column(type="string", length=100, unique=false, nullable=true)
      */
     protected $permission;
     
+    
+    /**
+     * @var string
+     * @Annotation\Options({"label":"Route Name:", "description": ""})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
+     * @Annotation\Filter({"name": "Zend\Filter\StringTrim"})
+     * @ORM\Column(type="string", length=100, unique=false, nullable=true)
+     */
+    protected $routeName;
     
     public function __construct() {
         $this->childs = new ArrayCollection();
@@ -199,6 +208,15 @@ class Menu extends \CdiEntity\Entity\BaseEntity {
     function setChilds($childs) {
         $this->childs = $childs;
     }
+
+    function getRouteName() {
+        return $this->routeName;
+    }
+
+    function setRouteName($routeName) {
+        $this->routeName = $routeName;
+    }
+
 
 
 

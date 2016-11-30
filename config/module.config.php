@@ -67,6 +67,16 @@ $setting = array(
     ),
     'router' => array(
         'routes' => array(
+            'ccontroller_factory_config' => array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/cdientity/controller/update-factory-config',
+                    'defaults' => array(
+                        'controller' => Controller\ControllerController::class,
+                        'action' => 'update-factory-config',
+                    ),
+                ),
+            ),
             'ccontroller' => array(
                 'type' => 'segment',
                 'options' => array(

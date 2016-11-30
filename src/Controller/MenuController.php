@@ -65,6 +65,7 @@ class MenuController extends AbstractActionController {
 
         foreach ($nms as $nm) {
             $exec = $this->codeGenerator->generateMenu($nm["nm"], $nm["menus"]);
+              $exec = $this->codeGenerator->generateRouteConfig($nm["nm"], $nm["menus"]);
         }
 
 

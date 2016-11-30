@@ -23,7 +23,8 @@
         "php": ">=5.5",
         "cdi/cdidatagrid": "^3.1.2",
         "doctrine/doctrine-orm-module": "^1.0",
-        "gedmo/doctrine-extensions": "^2.4.24"
+        "gedmo/doctrine-extensions": "^2.4.24",
+        "zendframework/zend-navigation": "^2.8.1"
     },
     "autoload": {
         "psr-4": {

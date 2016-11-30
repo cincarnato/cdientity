@@ -129,7 +129,7 @@ Trait EntityTrait {
 
     public function updateFile($entity, $file_contents) {
         try {
-            $file = $entity->getNamespace()->getPath() . "/Entity/" . $entity->getName() . ".php";
+            $file = $entity->getNamespace()->getPath() . "/src/Entity/" . $entity->getName() . ".php";
 
             file_put_contents(
                     $file, $file_contents);

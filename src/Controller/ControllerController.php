@@ -61,8 +61,24 @@ class ControllerController extends AbstractActionController {
 
         $exec = $this->codeGenerator->generateController($controller);
         $exec = $this->codeGenerator->generateControllerFactory($controller);
+          $exec = $this->codeGenerator->generateViewGrid($controller);
 
         return array('exec' => $exec);
     }
+    
+    
+     public function updateFactoryConfigAction() {
+           $controllers = $this->getEm()->getRepository('\CdiEntity\Entity\Controller')->findAll();
+
+        foreach ($controllers as $controller) {
+            $nms[$controller->getEntity()->getNamespace()->getId()]["nm"] = $controller->getEntity()->getNamespace();
+            $nms[$controller->getEntity()->getNamespace()->getId()]["controllers"][] = $controller;
+        }
+
+        foreach ($nms as $nm) {
+            $exec = $this->codeGenerator->generateControllerConfig($nm["nm"], $nm["controllers"]);
+              $exec = $this->codeGenerator->generateDatagridConfig($nm["nm"], $nm["controllers"]);
+        }
+     }
 
 }

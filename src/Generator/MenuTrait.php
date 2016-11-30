@@ -26,8 +26,8 @@ Trait MenuTrait {
         $file->setBody($aMenus);
 
         try {
-            $path = $namespace->getPath() . "/Config/";
-            $fileName = $path . "cmenu.config.php";
+            $path = $namespace->getPath() . "/config/";
+            $fileName = $path . "cdie-menu.config.php";
 
             if (!is_dir($path)) {
                 mkdir($path, 0777, true);

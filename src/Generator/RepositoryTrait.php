@@ -9,7 +9,7 @@ namespace CdiEntity\Generator;
  */
 Trait RepositoryTrait {
 
-     public function generateRepository(\CdiEntity\Entity\Entity $entity) {
+    public function generateRepository(\CdiEntity\Entity\Entity $entity) {
 
         $namespace = $entity->getNamespace()->getName() . "\Repository";
         $name = $namespace . "/" . $entity->getName();
@@ -81,18 +81,22 @@ Trait RepositoryTrait {
 
         // UPDATE the generated file
         try {
-            $path = $entity->getNamespace()->getPath() . "/Repository/";
-            $fileName = $entity->getNamespace()->getPath() . "/Repository/" . $entity->getName() . "Repository.php";
+            $path = $entity->getNamespace()->getPath() . "/src/Repository/";
+            $fileName = $entity->getNamespace()->getPath() . "/src/Repository/" . $entity->getName() . "Repository.php";
 
-            if (!is_dir($path)) {
-                mkdir($path, 0777, true);
+
+            if (!file_exists($fileName)) {
+
+                if (!is_dir($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                file_put_contents(
+                        $fileName, $file->generate());
             }
-
-            file_put_contents(
-                    $fileName, $file->generate());
         } catch (Exception $ex) {
             echo $ex;
         }
     }
-    
+
 }

@@ -13,7 +13,7 @@ Trait ControllerTrait {
     public function generateController(\CdiEntity\Entity\Controller $controller) {
 
         $namespace = $controller->getEntity()->getNamespace()->getName() . "\Controller";
-      
+
         //CLASS
         $class = new \Zend\Code\Generator\ClassGenerator();
         $class->setName($controller->getEntity()->getName() . "Controller");
@@ -74,15 +74,17 @@ Trait ControllerTrait {
 
         // UPDATE the generated file
         try {
-            $path = $controller->getEntity()->getNamespace()->getPath() . "/Controller/";
-            $fileName = $controller->getEntity()->getNamespace()->getPath() . "/Controller/" . $controller->getEntity()->getName() . "Controller.php";
+            $path = $controller->getEntity()->getNamespace()->getPath() . "/src/Controller/";
+            $fileName = $controller->getEntity()->getNamespace()->getPath() . "/src/Controller/" . $controller->getEntity()->getName() . "Controller.php";
 
-            if (!is_dir($path)) {
-                mkdir($path, 0777, true);
+            if (!file_exists($fileName)) {
+                if (!is_dir($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                file_put_contents(
+                        $fileName, $file->generate());
             }
-
-            file_put_contents(
-                    $fileName, $file->generate());
         } catch (Exception $ex) {
             echo $ex;
         }

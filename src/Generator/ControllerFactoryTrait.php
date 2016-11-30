@@ -44,8 +44,8 @@ Trait ControllerFactoryTrait {
 
         // UPDATE the generated file
         try {
-            $path = $controller->getEntity()->getNamespace()->getPath() . "/Factory/Controller/";
-            $fileName = $controller->getEntity()->getNamespace()->getPath() . "/Factory/Controller/" . $controller->getEntity()->getName() . "ControllerFactory.php";
+            $path = $controller->getEntity()->getNamespace()->getPath() . "/src/Factory/Controller/";
+            $fileName = $controller->getEntity()->getNamespace()->getPath() . "/src/Factory/Controller/" . $controller->getEntity()->getName() . "ControllerFactory.php";
 
             if (!is_dir($path)) {
                 mkdir($path, 0777, true);
@@ -59,18 +59,18 @@ Trait ControllerFactoryTrait {
     }
 
     protected function generateInvoke($controller) {
-        
+
         $EntityName = $controller->getEntity()->getName();
         $namespace = $controller->getEntity()->getNamespace()->getName();
-        
+
         $method = new \Zend\Code\Generator\MethodGenerator();
         $method->setName("__invoke");
-        
+
         //BODY
         $sourceContent = '/* @var $grid \CdiDataGrid\Grid */' . PHP_EOL;
         $sourceContent .= '$grid = $container->build("CdiDatagrid", ["customOptionsKey" => "cdiEntity' . $EntityName . '"]);' . PHP_EOL;
         $sourceContent .= '$em = $container->get("Doctrine\ORM\EntityManager");' . PHP_EOL;
-        $sourceContent .= 'return new \\'.$namespace.'\Controller\\' . $EntityName . 'Controller($em,$grid);' . PHP_EOL;
+        $sourceContent .= 'return new \\' . $namespace . '\Controller\\' . $EntityName . 'Controller($em,$grid);' . PHP_EOL;
         $method->setBody($sourceContent);
 
         //PARAMETERS
@@ -87,8 +87,7 @@ Trait ControllerFactoryTrait {
         return $method;
     }
 
-    
-       //FROM REFLECTION
+    //FROM REFLECTION
     public function generateControllerFactoryReflection(\CdiEntity\Entity\Controller $controller) {
 
         $file = new \Zend\Code\Generator\FileGenerator();
@@ -102,12 +101,14 @@ Trait ControllerFactoryTrait {
             $path = $controller->getNamespace()->getPath() . "/Factory/Controller/";
             $fileName = $controller->getNamespace()->getPath() . "/Factory/Controller/" . $controller->getEntity()->getName() . "Controller.php";
 
-            if (!is_dir($path)) {
-                mkdir($path, 0777, true);
-            }
+            if (!file_exists($fileName)) {
+                if (!is_dir($path)) {
+                    mkdir($path, 0777, true);
+                }
 
-            file_put_contents(
-                    $fileName, $file->generate());
+                file_put_contents(
+                        $fileName, $file->generate());
+            }
         } catch (Exception $ex) {
             echo $ex;
         }
