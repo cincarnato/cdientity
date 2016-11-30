@@ -33,7 +33,7 @@ Trait ControllerConfigTrait {
 
         try {
             $path = $namespace->getPath() . "/config/";
-            $fileName = $path . "cdie-conroller.config.php";
+            $fileName = $path . "cdie-controller.config.php";
 
             if (!is_dir($path)) {
                 mkdir($path, 0777, true);
