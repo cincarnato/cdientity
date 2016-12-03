@@ -17,7 +17,7 @@ Trait ViewGridTrait {
         $file = new \Zend\Code\Generator\FileGenerator();
       
         
-        $file->setBody($this->getGridBody());
+        $file->setBody($this->getGridBody($entity));
         
 
         // UPDATE the generated file
@@ -40,12 +40,12 @@ Trait ViewGridTrait {
     }
     
     
-    protected function getGridBody(){
+    protected function getGridBody($entity){
                 $return = '<div class="row">' . PHP_EOL;
         $return .= '<div class="col-12">' . PHP_EOL;
         $return .= '<div class="panel panel panel-primary">' . PHP_EOL;
         $return .= '<div class="panel-heading">' . PHP_EOL;
-        $return .= '<h4 class="panel-title"> <?php echo $this->entity; ?></h4> ' . PHP_EOL;
+        $return .= '<h4 class="panel-title">'.$this->entity->getName().'</h4>'.PHP_EOL;
         $return .= ' </div>' . PHP_EOL;
         $return .= '<div class="panel-body">' . PHP_EOL;
         $return .= '<?php echo $this->CdiGrid($this->grid); ?>' . PHP_EOL;
