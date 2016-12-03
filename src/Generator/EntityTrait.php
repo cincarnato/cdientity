@@ -388,8 +388,8 @@ Trait EntityTrait {
                     );
                 }
 
-                if ($property->getBeNullable()) {
-                    $aForm = array(array("name" => 'Annotation\AllowEmpty({"true"}) '));
+               if ($property->getBeNullable()) {
+                    $aForm[] = array("name" => 'Annotation\AllowEmpty({"true"}) ');
                 }
 
                 $aDoctrine = array(
