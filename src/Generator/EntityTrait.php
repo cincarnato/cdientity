@@ -314,6 +314,33 @@ Trait EntityTrait {
 
                 $d->setTags($a);
                 break;
+            case "decimal":
+                $d = new \Zend\Code\Generator\DocBlockGenerator();
+
+                if ($property->getExclude()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Exclude()')
+                    );
+                } else if ($property->getHidden()) {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
+                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
+                    );
+                } else {
+                    $aForm = array(
+                        array("name" => 'Annotation\Attributes({"type":"text"})'),
+                        array("name" => 'Annotation\Options({"label":"' . $label . '", "description":"' . $property->getDescription() . '"})'),
+                    );
+                }
+
+                $aDoctrine = array(
+                    array("name" => 'ORM\Column(type="decimal", scale="2", precision=' . $property->getLength() . ', unique=' . $this->booleanString($property->getBeUnique()) . ', nullable=' . $this->booleanString($property->getBeNullable()) . ', name="' . $this->camelToUnder($property->getName()) . '")'),
+                );
+
+                $a = array_merge_recursive($aForm, $aDoctrine);
+
+                $d->setTags($a);
+                break;
             case "text":
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
 
