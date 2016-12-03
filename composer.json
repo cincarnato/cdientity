@@ -3,7 +3,7 @@
     "description": "Zend Framework 3 Module that provides a ABM Doctrine Entity",
     "type": "library",
     "license": "WTFPL",
-    "version": "4.0.4",
+    "version": "4.0.5",
     "keywords": [
         "entity",
         "doctrine",

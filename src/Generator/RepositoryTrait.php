@@ -10,7 +10,7 @@ namespace CdiEntity\Generator;
 Trait RepositoryTrait {
 
     public function generateRepository(\CdiEntity\Entity\Entity $entity) {
-
+        $entityClass = "\\".$entity->getNamespace()->getName()."\Entity"."\\".$entity->getName();
         $namespace = $entity->getNamespace()->getName() . "\Repository";
         $name = $namespace . "/" . $entity->getName();
 
@@ -35,7 +35,9 @@ Trait RepositoryTrait {
         //EXTEND
         $class->setExtendedClass("\Doctrine\ORM\EntityRepository");
 
-
+        
+        //PARAM to Save and Remove Methods
+         $param = new \Zend\Code\Generator\ParameterGenerator("entity", $entityClass);
         //Save Method
         $save = new \Zend\Code\Generator\MethodGenerator ( );
         //save-name
@@ -45,7 +47,7 @@ Trait RepositoryTrait {
                 ' $this->getEntityManager()->persist($entity);'
                 . ' $this->getEntityManager()->flush();');
         //save-parameter
-        $save->setParameter("entity");
+        $save->setParameter($param);
         //save-doc
         $d = new \Zend\Code\Generator\DocBlockGenerator();
         $a = [["name" => "save"]];
@@ -64,8 +66,8 @@ Trait RepositoryTrait {
         $remove->setBody(
                 ' $this->getEntityManager()->remove($entity);'
                 . ' $this->getEntityManager()->flush();');
-        //remove-parameter
-        $remove->setParameter("entity");
+       
+        $remove->setParameter($param);
         //remove-doc
         $d = new \Zend\Code\Generator\DocBlockGenerator();
         $a = [["name" => "remove"]];
