@@ -1,0 +1,30 @@
+<?php if ($this->oid): ?>
+
+
+    <script>
+
+        function getEntity() {
+            $.get("/cdientity/otm/ajax/<?php echo $this->subEntity->getId(); ?>/<?php echo $this->parentEntity->getId(); ?>/<?php echo $this->oid; ?>").done(function (data) {
+                $("#subEntity_<?php echo $this->subEntity->getId(); ?>").html(data);
+            });
+        }
+
+        getEntity();
+    </script>
+
+
+    <div id="subEntity_<?php echo $this->subEntity->getId(); ?>">
+
+
+    </div>
+<?php else: ?>
+    <br>
+    <div class="clearfix"></div>
+    <div class="alert alert-info">
+        <?php
+        echo $this->translate('Primero debe guardar: ');
+        echo $this->parentEntity->getName();
+        ?>
+    </div>
+
+<?php endif; ?>

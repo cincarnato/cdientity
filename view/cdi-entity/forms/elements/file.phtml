@@ -1,0 +1,34 @@
+<div  class="form-group<?php if ($this->formElementErrors($this->element)) echo " has-error" ?>">
+    
+    <?php 
+    if (!$this->element->getAttribute('placeholder') && $this->element->getLabel()){
+        $element->setAttribute('placeholder',$this->element->getLabel());
+       
+    }
+     $element->setAttribute('style',"display:none;");
+    ?>
+
+  
+    <div class="">
+        <label class="btn btn-default fa fa-upload">
+            <?php echo $this->translate(); ?><?php echo $this->formElement($this->element); ?>
+        </label>
+        
+        <?php if ($element->getOption('description')): ?>
+            <p class="help-block"><?php echo $this->element->getOption('description') ?></p>
+        <?php endif; ?>
+
+        <?php if ($this->formElementErrors($this->element)) : ?>
+            <?php
+            // Imprimo los errores
+            echo $this->formElementErrors()
+                    ->setMessageOpenFormat('<span class="help-block">')
+                    ->setMessageSeparatorString('</span><span class="help-block">')
+                    ->setMessageCloseString('</span>')
+                    ->render($element);
+            ?>
+
+        <?php endif; ?>
+
+    </div>
+</div>

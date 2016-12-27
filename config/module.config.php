@@ -24,6 +24,9 @@ $setting = array(
     'view_helpers' => array(
         'invokables' => array(
             'CustomEntityLink' => 'CdiEntity\View\Helper\CustomEntityLink',
+            'EntityToArray' => 'CdiEntity\View\Helper\EntityToArray',
+            'CdiEntityRenderEditor' => 'CdiEntity\View\Helper\CdiEntityRenderEditor',
+            'CdiEntityRenderForm' => 'CdiEntity\View\Helper\CdiEntityRenderForm',
         )
     ),
     'view_manager' => array(
@@ -156,7 +159,7 @@ $setting = array(
             'cmain' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/cdientity/main[/:action][/:id][/:eid]',
+                    'route' => '/cdientity/main[/:action][/:id][/:eid][/:rid]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]+',
@@ -164,6 +167,37 @@ $setting = array(
                     'defaults' => array(
                         'controller' => Controller\MainController::class,
                         'action' => 'abm',
+                    ),
+                ),
+            ),
+            'cdi_entity_editor' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/cdientity/editor/:action/:eid[/:oid]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'eid' => '[0-9]+',
+                        'oid' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => Controller\EditorController::class,
+                        'action' => 'editor',
+                    ),
+                ),
+            ),
+            'cdi_entity_otm' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/cdientity/otm/:action/:entityId/:parentEntityId/:parentObjectId',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'entityId' => '[0-9]+',
+                        'parentEntityId' => '[0-9]+',
+                        'parentObjectId' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => Controller\OtmController::class,
+                        'action' => 'ajax',
                     ),
                 ),
             ),
@@ -178,6 +212,8 @@ $setting = array(
                 'cmain' => ['admin'],
                 'ccontroller' => ['admin'],
                 'cmenu*' => ['admin'],
+                'cdi_entity_editor' => ['admin'],
+                    'cdi_entity_otm' => ['admin'],
             ]
         ],
     ]

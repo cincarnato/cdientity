@@ -1,0 +1,24 @@
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+<?php echo $this->form()->openTag($form); ?>
+<?php foreach ($form as $element) : ?>
+    <?php if ($element->getAttribute('type') == "hidden"): ?>
+        <?php echo $this->formElement($element); ?>
+    <?php elseif ($element->getAttribute('type') == "submit"): ?>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <?php echo $this->partial($this->partialElement, array("element" => $element)); ?>
+        </div>
+     <?php elseif ($element->getAttribute('type') == "file"): ?>
+       <div class="col-lg-12 col-md-12 col-xs-12">
+            <?php echo $this->partial("cdi-commons/forms/elements/file", array("element" => $element)); ?>
+        </div>
+    <?php else: ?>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <?php echo $this->partial($this->partialElement, array("element" => $element)); ?>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+<?php echo $this->form()->closeTag($form); ?>
+

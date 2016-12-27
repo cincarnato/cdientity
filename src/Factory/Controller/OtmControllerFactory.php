@@ -7,11 +7,11 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 use CdiEntity\Controller;
 use CdiDataGrid\Source\Doctrine\DoctrineSource;
 
-class MainControllerFactory implements FactoryInterface {
+class OtmControllerFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL) {
 
-        $id = $container->get('Application')->getMvcEvent()->getRouteMatch()->getParam('id', false);
+        $entityId = $container->get('Application')->getMvcEvent()->getRouteMatch()->getParam('entityId', false);
 
         $em = $container->get('Doctrine\ORM\EntityManager');
 
@@ -19,18 +19,17 @@ class MainControllerFactory implements FactoryInterface {
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")
-                ->setParameter("id", $id);
+                ->setParameter("id", $entityId);
         $entity = $query->getQuery()->getOneOrNullResult();
 
+        $entityName = $entity->getNamespace()->getName() . "\Entity\\" . $entity->getName();
+
         $gridconfig = "cdigrid_" . $entity->getNamespace()->getName() . "_" . $entity->getName();
-    
+
         /* @var $grid \CdiDataGrid\Grid */
         $grid = $container->build("CdiDatagrid", ["customOptionsKey" => $gridconfig]);
 
-        //ColumnConfig
-        $gridConfig = $container->get('config')[$gridconfig];
-
-        return new Controller\MainController($em, $grid, $entity, $gridConfig);
+        return new Controller\OtmController($em, $grid, $entity);
     }
 
 }

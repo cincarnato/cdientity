@@ -18,6 +18,14 @@ class MainController extends AbstractActionController {
      * @var \CdiDataGrid\Grid 
      */
     protected $grid;
+    
+     /**
+     * Some Entity
+     * 
+     * @var 
+     */
+    protected $entity;
+    
     protected $columnsConfig = [
         "createdAt" => [
                 "type" => "date",
@@ -48,24 +56,16 @@ class MainController extends AbstractActionController {
         $this->grid = $grid;
     }
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \CdiDataGrid\Grid $grid) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \CdiDataGrid\Grid $grid,$entity,$gridConfig) {
         $this->em = $em;
         $this->grid = $grid;
+        $this->entity = $entity;
+        $this->columnsConfig = array_merge_recursive($gridConfig["columnsConfig"], $this->columnsConfig);
     }
 
     public function abmAction() {
 
-        $id = $this->params("id");
-
-
-
-        $query = $this->getEm()->createQueryBuilder()
-                ->select('u')
-                ->from('CdiEntity\Entity\Entity', 'u')
-                ->where("u.id = :id")
-                ->setParameter("id", $id);
-        $entity = $query->getQuery()->getOneOrNullResult();
-
+        $entity = $this->entity;
 
         $source = new \CdiDataGrid\Source\DoctrineSource($this->getEm(), $entity->getFullName());
         $this->grid->setSource($source);
@@ -126,7 +126,7 @@ class MainController extends AbstractActionController {
 //        $this->grid->addForceFilter("id", $idElement);
         
        
-        $this->grid->setColumnsConfig($this->columnsConfig);
+        //$this->grid->setColumnsConfig($this->columnsConfig);
         
         $this->grid->prepare();
         $view = new ViewModel(array('grid' => $this->grid, 'entity' => $entity));
@@ -154,8 +154,8 @@ class MainController extends AbstractActionController {
                 ->from($rentity->getFullName(), 'u')
                 ->where("u.id = :id")
                 ->setParameter("id", $id);
-
         $entity = $query->getQuery()->getOneOrNullResult();
+        
         return array('entity' => $entity, 'rentity' => $rentity);
     }
 
@@ -169,12 +169,8 @@ class MainController extends AbstractActionController {
         $rid = $this->params("rid");
 
 
-        $query = $this->getEm()->createQueryBuilder()
-                ->select('u')
-                ->from('CdiEntity\Entity\Entity', 'u')
-                ->where("u.id = :id")
-                ->setParameter("id", $id);
-        $entity = $query->getQuery()->getOneOrNullResult();
+      
+        $entity = $this->entity;
 
 
         $query = $this->getEm()->createQueryBuilder()
@@ -183,44 +179,52 @@ class MainController extends AbstractActionController {
                 ->where("u.id = :id")
                 ->setParameter("id", $rid);
         $rentity = $query->getQuery()->getOneOrNullResult();
+        
+        
+           $query = $this->getEm()->createQueryBuilder()
+                ->select('u')
+                ->from($entity->getFullName(), 'u')
+                ->where("u.id = :id")
+                ->setParameter("id", $eid);
+        $parentObject = $query->getQuery()->getOneOrNullResult();
 
 
 
         $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from($rentity->getFullName(), 'u')
-                ->where("u." . $entity->getName() . " = :id")
+                ->where("u." . lcfirst($entity->getName()) . " = :id")
                 ->setParameter("id", $eid);
 
 
-        $grid = $this->getServiceLocator()->get('cdiGrid');
-        $source = new \CdiDataGrid\DataGrid\Source\Doctrine($this->getEm(), $rentity->getFullName(), $query);
+        $grid = $this->grid;
+        $source = new \CdiDataGrid\Source\DoctrineSource($this->getEm(), $rentity->getFullName(), $query);
         $grid->setSource($source);
-        $grid->setRecordPerPage(20);
-        $grid->datetimeColumn('createdAt', 'Y-m-d H:i:s');
-        $grid->datetimeColumn('updatedAt', 'Y-m-d H:i:s');
-        $grid->datetimeColumn('expiration', 'Y-m-d H:i:s');
-        $grid->hiddenColumn('createdAt');
-        $grid->hiddenColumn('updatedAt');
-        $grid->hiddenColumn('createdBy');
-        $grid->hiddenColumn('lastUpdatedBy');
 
-
-        $grid->addEditOption("Edit", "left", "btn btn-success fa fa-edit");
-        $grid->addDelOption("Del", "left", "btn btn-warning fa fa-trash");
-        $grid->addNewOption("Add", "btn btn-primary fa fa-plus", " Agregar");
-        $grid->setTableClass("table-condensed customClass");
 
         $grid->prepare();
 
-
-
+         $parentEntityName = lcfirst($entity->getName());
+         //Remuevo la entidad padre de los filtros
+         $grid->getFormFilters()->remove($parentEntityName);
+        
         if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {
-            $grid->getEntityForm()->get($entity->getName())->setValue($eid);
+           
+            $grid->getCrudForm()->remove($parentEntityName);
+            $hidden = new \Zend\Form\Element\Hidden($parentEntityName);
+            $hidden->setValue($eid);
+            $grid->getCrudForm()->add($hidden);
         }
+        
+        
+        
 
 
-        return array('grid' => $grid, 'entity' => $rentity);
+        return array('grid' => $grid, 'rentity' => $rentity,'entity' => $entity,"parentObject" => $parentObject);
     }
+    
+    
+    
+    
 
 }

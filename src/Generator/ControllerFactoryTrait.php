@@ -62,13 +62,14 @@ Trait ControllerFactoryTrait {
 
         $EntityName = $controller->getEntity()->getName();
         $namespace = $controller->getEntity()->getNamespace()->getName();
+        $gridconfigname = "cdigrid_".$namespace."_". $EntityName;
 
         $method = new \Zend\Code\Generator\MethodGenerator();
         $method->setName("__invoke");
 
         //BODY
         $sourceContent = '/* @var $grid \CdiDataGrid\Grid */' . PHP_EOL;
-        $sourceContent .= '$grid = $container->build("CdiDatagrid", ["customOptionsKey" => "cdiEntity' . $EntityName . '"]);' . PHP_EOL;
+        $sourceContent .= '$grid = $container->build("CdiDatagrid", ["customOptionsKey" => "' . $gridconfigname . '"]);' . PHP_EOL;
         $sourceContent .= '$em = $container->get("Doctrine\ORM\EntityManager");' . PHP_EOL;
         $sourceContent .= 'return new \\' . $namespace . '\Controller\\' . $EntityName . 'Controller($em,$grid);' . PHP_EOL;
         $method->setBody($sourceContent);

@@ -44,14 +44,14 @@ Trait GridConfigTrait {
 
     protected function gridConfig(\CdiEntity\Entity\Controller $controller) {
 
-        $nameConfig = "cdiEntity" . $controller->getEntity()->getName();
+        $nameConfig = "cdigrid_".$controller->getEntity()->getNamespace()->getName()."_". $controller->getEntity()->getName();
 
 
         $return = "'" . $nameConfig . "' => [" . PHP_EOL;
         $return .= "'sourceConfig' => [" . PHP_EOL;
         $return .= "'type' => 'doctrine'," . PHP_EOL;
         $return .= '"doctrineOptions" => [' . PHP_EOL;
-        $return .= '"entityName" => "\Application\Entity\\'.$controller->getEntity()->getName().'",' . PHP_EOL;
+        $return .= '"entityName" => "\\'.$controller->getEntity()->getNamespace()->getName().'\Entity\\'.$controller->getEntity()->getName().'",' . PHP_EOL;
         $return .= '"entityManager" => "Doctrine\ORM\EntityManager"' . PHP_EOL;
         $return .= '],' . PHP_EOL;
         $return .= '],' . PHP_EOL;

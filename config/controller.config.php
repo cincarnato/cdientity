@@ -12,6 +12,8 @@ return array(
         \CdiEntity\Controller\MainController::class => \CdiEntity\Factory\Controller\MainControllerFactory::class,
         \CdiEntity\Controller\MenuController::class => \CdiEntity\Factory\Controller\MenuControllerFactory::class,
         \CdiEntity\Controller\ControllerController::class => \CdiEntity\Factory\Controller\ControllerControllerFactory::class,
+        \CdiEntity\Controller\EditorController::class => \CdiEntity\Factory\Controller\EditorControllerFactory::class,
+        \CdiEntity\Controller\OtmController::class => \CdiEntity\Factory\Controller\OtmControllerFactory::class,
     ],
 );
 
