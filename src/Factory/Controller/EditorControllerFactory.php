@@ -11,7 +11,7 @@ class EditorControllerFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL) {
 
-        $id = $container->get('Application')->getMvcEvent()->getRouteMatch()->getParam('eid', false);
+        $id = $container->get('Application')->getMvcEvent()->getRouteMatch()->getParam('entityId', false);
 
         $em = $container->get('Doctrine\ORM\EntityManager');
 

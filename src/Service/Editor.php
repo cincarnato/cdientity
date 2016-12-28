@@ -66,6 +66,18 @@ class Editor {
      */
     protected $crudForm;
     
+      /**
+     * Entity Object id
+     */
+    protected $objectId = null;
+    
+     /**
+     * Entity Object
+     */
+    protected $object = null;
+    
+    
+    
     function getId() {
         return $this->id;
     }
@@ -89,6 +101,7 @@ class Editor {
     }
 
     public function process($id = null) {
+        $this->objectId = $id ;
         //IF POST... EDIT/?DELETE?
         if ($this->getMvcevent()->getRequest()->isPost()) {
             $data = $this->getMvcevent()->getRequest()->getPost();
@@ -153,12 +166,12 @@ class Editor {
             $this->crudForm = clone $this->getForm();
 
             if ($id) {
-                $record = $this->getEm()->getRepository($this->entityName)->find($id);
+                $this->object = $this->getEm()->getRepository($this->entityName)->find($id);
             } else {
-                $record = new $this->entityName;
+                $this->object = new $this->entityName;
             }
 
-            $this->crudForm->setObject($record);
+            $this->crudForm->setObject($this->object);
             $this->crudForm->setAttribute('method', 'post');
             $this->crudForm->add(array(
                 'name' => 'submit',
@@ -168,7 +181,7 @@ class Editor {
                 )
             ));
 
-            $this->crudForm->bind($record);
+            $this->crudForm->bind($this->object);
         }
         return $this->crudForm;
     }
@@ -245,5 +258,23 @@ class Editor {
             return false;
         }
     }
+    
+    function getObject() {
+        return $this->object;
+    }
+
+    function setObject($object) {
+        $this->object = $object;
+    }
+
+    function getObjectId() {
+        return $this->objectId;
+    }
+
+    function setObjectId($objectId) {
+        $this->objectId = $objectId;
+    }
+
+
 
 }

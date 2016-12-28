@@ -1,1 +1,6 @@
-<?php echo $this->CdiEntityRenderEditor($this->editor,$this->entity,$this->oid); ?>
+
+<?php
+
+$this->headScript()->appendFile($this->basePath() . '/shared/jquery/jquery.form.js', 'text/javascript');
+?>
+<?php echo $this->CdiEntityRenderEditor($this->editor, $this->entity, $this->oid); ?>

@@ -93,6 +93,13 @@ class OtmController extends AbstractActionController {
 
         $grid->setTemplate("ajax");
         $grid->setId("cdiGrid_".$entity->getName());
+        
+        
+        //Merge Columns config to hidden parent
+        $columnsConfig = [lcfirst($parentEntity->getName()) =>["hidden" => true]];
+        $grid->mergeColumnsConfig($columnsConfig);
+        
+        
         $grid->prepare();
 
          $parentEntityName = lcfirst($parentEntity->getName());
@@ -106,7 +113,6 @@ class OtmController extends AbstractActionController {
             $hidden->setValue($parentObjectId);
             $grid->getCrudForm()->add($hidden);
         }
-        
         
         
 
