@@ -19,10 +19,12 @@ Trait ViewGridTrait {
         
         $file->setBody($this->getGridBody($entity));
         
+        $viewDirName = $this->normaliceViewDirName($entity->getName());
+      
 
         // UPDATE the generated file
         try {
-            $path = $entity->getNamespace()->getPath() . "/view/" . lcfirst($entity->getNamespace()->getName()."/".lcfirst($entity->getName()));
+            $path = $entity->getNamespace()->getPath() . "/view/" . lcfirst($entity->getNamespace()->getName()."/".$viewDirName);
             $fileName = $path . "/grid.phtml";
             
             if (!file_exists($fileName)) {
@@ -38,6 +40,22 @@ Trait ViewGridTrait {
             echo $ex;
         }
     }
+    
+    protected function normaliceViewDirName($entityName){
+        $string=  lcfirst($entityName);
+        
+        $aString = str_split($string);
+        $return = "";
+        foreach($aString as $char){
+            if(ctype_upper($char)){
+                $return .= "-".lcfirst($char);
+            }else{
+                 $return .= $char;
+            }
+        }
+        return $return;
+    }
+    
     
     
     protected function getGridBody(\CdiEntity\Entity\Entity $entity){

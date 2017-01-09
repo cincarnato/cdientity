@@ -27,7 +27,7 @@ Trait RouteConfigTrait {
         $body .= "]]];" . PHP_EOL;
 
         $file = new \Zend\Code\Generator\FileGenerator();
-        $file->setBody($body);
+        $file->setBody(trim($body," \t\n\r\0\x0B"));
 
         try {
             $path = $namespace->getPath() . "/config/";
@@ -38,7 +38,7 @@ Trait RouteConfigTrait {
             }
 
             file_put_contents(
-                    $fileName, $file->generate());
+                    $fileName, trim($file->generate()," \t\n\r\0\x0B"));
         } catch (Exception $ex) {
             echo $ex;
         }

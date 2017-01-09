@@ -23,7 +23,7 @@ Trait MenuTrait {
         $aMenus .= ")));" . PHP_EOL;
 
         $file = new \Zend\Code\Generator\FileGenerator();
-        $file->setBody($aMenus);
+        $file->setBody(trim($aMenus," \t\n\r\0\x0B"));
 
         try {
             $path = $namespace->getPath() . "/config/";
@@ -34,7 +34,7 @@ Trait MenuTrait {
             }
 
             file_put_contents(
-                    $fileName, $file->generate());
+                    $fileName, trim($file->generate()," \t\n\r\0\x0B"));
         } catch (Exception $ex) {
             echo $ex;
         }

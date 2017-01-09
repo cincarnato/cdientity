@@ -36,7 +36,7 @@ Trait GridConfigTrait {
             }
 
             file_put_contents(
-                    $fileName, $file->generate());
+                    $fileName, trim($file->generate()," \t\n\r\0\x0B"));
         } catch (Exception $ex) {
             echo $ex;
         }
