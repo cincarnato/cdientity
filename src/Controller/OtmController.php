@@ -18,14 +18,13 @@ class OtmController extends AbstractActionController {
      * @var \CdiDataGrid\Grid 
      */
     protected $grid;
-    
-     /**
+
+    /**
      * Some Entity
      * 
      * @var 
      */
     protected $entity;
-
 
     function getEm() {
         return $this->em;
@@ -52,14 +51,14 @@ class OtmController extends AbstractActionController {
     public function ajaxAction() {
 
         //ID de Entidad
-        $entityId= $this->params("entityId");
+        $entityId = $this->params("entityId");
         //ID del Objeto Padre en si mismo
         $parentObjectId = $this->params("parentObjectId");
         //ID de la Entidad Padre (oneToMany) del objeto padre
         $parentEntityId = $this->params("parentEntityId");
 
 
-      
+
         $entity = $this->entity;
 
 
@@ -69,9 +68,9 @@ class OtmController extends AbstractActionController {
                 ->where("u.id = :id")
                 ->setParameter("id", $parentEntityId);
         $parentEntity = $query->getQuery()->getOneOrNullResult();
-        
-        
-           $query = $this->getEm()->createQueryBuilder()
+
+
+        $query = $this->getEm()->createQueryBuilder()
                 ->select('u')
                 ->from($entity->getFullName(), 'u')
                 ->where("u.id = :id")
@@ -92,33 +91,33 @@ class OtmController extends AbstractActionController {
         $grid->setSource($source);
 
         $grid->setTemplate("ajax");
-        $grid->setId("cdiGrid_".$entity->getName());
-        
-        
+        $grid->setId("cdiGrid_" . $entity->getName());
+
+
         //Merge Columns config to hidden parent
-        $columnsConfig = [lcfirst($parentEntity->getName()) =>["hidden" => true]];
+        $columnsConfig = [lcfirst($parentEntity->getName()) => ["hidden" => true]];
         $grid->mergeColumnsConfig($columnsConfig);
-        
-        
+
+
         $grid->prepare();
 
-         $parentEntityName = lcfirst($parentEntity->getName());
-         //Remuevo la entidad padre de los filtros
-         $grid->getFormFilters()->remove($parentEntityName);
-        
-        if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add") {
-           
+        $parentEntityName = lcfirst($parentEntity->getName());
+        //Remuevo la entidad padre de los filtros
+        $grid->getFormFilters()->remove($parentEntityName);
+
+        if ($this->request->getPost("crudAction") == "edit" || $this->request->getPost("crudAction") == "add" || $this->request->getPost("crudAction") == "editSubmit" || $this->request->getPost("crudAction") == "addSubmit") {
+
             $grid->getCrudForm()->remove($parentEntityName);
             $hidden = new \Zend\Form\Element\Hidden($parentEntityName);
             $hidden->setValue($parentObjectId);
             $grid->getCrudForm()->add($hidden);
         }
-        
-        
 
-       $view = new ViewModel(array('grid' => $grid, 'parentEntity' => $parentEntity,'entity' => $entity,"parentObject" => $parentObject));
-     $view->setTerminal(true);
-     return $view;
+
+
+        $view = new ViewModel(array('grid' => $grid, 'parentEntity' => $parentEntity, 'entity' => $entity, "parentObject" => $parentObject));
+        $view->setTerminal(true);
+        return $view;
     }
 
 }

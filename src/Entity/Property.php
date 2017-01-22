@@ -146,6 +146,17 @@ class Property extends \CdiEntity\Entity\BaseEntity {
      * @ORM\Column(type="boolean", unique=false, nullable=true, name="hidden")
      */
     protected $hidden = false;
+    
+    
+       /**
+     * @var string
+     * @Annotation\Type("Zend\Form\Element\Checkbox") 
+     * @Annotation\Attributes({"type":"checkbox"})
+     * @Annotation\Options({"label":"Mandatory:", "value": "0"})
+     * @Annotation\AllowEmpty({"true"})
+     * @ORM\Column(type="boolean", unique=false, nullable=true, name="mandatory")
+     */
+    protected $mandatory = false;
 
     public function __construct() {
         
@@ -274,5 +285,17 @@ class Property extends \CdiEntity\Entity\BaseEntity {
     function setHidden($hidden) {
         $this->hidden = $hidden;
     }
+    
+
+    function getMandatory() {
+        return $this->mandatory;
+    }
+
+    function setMandatory($mandatory) {
+        $this->mandatory = $mandatory;
+    }
+
+
+
 
 }

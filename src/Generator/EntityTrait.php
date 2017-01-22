@@ -388,7 +388,7 @@ Trait EntityTrait {
                     );
                 }
 
-               if ($property->getBeNullable()) {
+                if ($property->getBeNullable()) {
                     $aForm[] = array("name" => 'Annotation\AllowEmpty({"true"}) ');
                 }
 
@@ -498,13 +498,6 @@ Trait EntityTrait {
             case "manyToMany":
 
                 $d = new \Zend\Code\Generator\DocBlockGenerator();
-                //Debo remplazar strtolower($entity->getName()) por una busqueda de la propiedad que tiene la relacion
-                if ($property->getHidden()) {
-                    $aForm = array(
-                        array("name" => 'Annotation\Attributes({"type":"hidden"})'),
-                        array("name" => 'Annotation\Type("Zend\Form\Element\Hidden")')
-                    );
-                }
 
                 $a = array(
                     array("name" => 'Annotation\Exclude()'),
@@ -513,6 +506,16 @@ Trait EntityTrait {
                 $d->setTags($a);
                 break;
         }
+
+        //Mandatorio
+        if ($property->getMandatory()) {
+            $aRequire = array(
+                array("name" => 'Annotation\Required(true)'),
+                array("name" => 'Annotation\Validator({"name":"NotEmpty"})')
+            );
+            $d->setTags($aRequire);
+        }
+
         return $d;
     }
 
