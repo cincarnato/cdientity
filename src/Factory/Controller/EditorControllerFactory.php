@@ -14,8 +14,10 @@ class EditorControllerFactory implements FactoryInterface {
         $id = $container->get('Application')->getMvcEvent()->getRouteMatch()->getParam('entityId', false);
 
         $em = $container->get('Doctrine\ORM\EntityManager');
-
-        $query = $em->createQueryBuilder()
+        
+        $emCdiEntity = $container->get('doctrine.entitymanager.orm_cdientity');
+        
+        $query = $emCdiEntity->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")
@@ -28,7 +30,7 @@ class EditorControllerFactory implements FactoryInterface {
        $editor = $container->get('cdientity_editor');
        $editor->setEntityName($entityName);
 
-        return new Controller\EditorController($em, $editor,$entity);
+        return new Controller\EditorController($em,  $emCdiEntity, $editor,$entity);
     }
 
 }

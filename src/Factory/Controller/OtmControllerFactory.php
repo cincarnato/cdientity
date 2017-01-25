@@ -15,7 +15,9 @@ class OtmControllerFactory implements FactoryInterface {
 
         $em = $container->get('Doctrine\ORM\EntityManager');
 
-        $query = $em->createQueryBuilder()
+        $emCdiEntity = $container->get('doctrine.entitymanager.orm_cdientity');
+
+        $query = $emCdiEntity->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")
@@ -29,7 +31,7 @@ class OtmControllerFactory implements FactoryInterface {
         /* @var $grid \CdiDataGrid\Grid */
         $grid = $container->build("CdiDatagrid", ["customOptionsKey" => $gridconfig]);
 
-        return new Controller\OtmController($em, $grid, $entity);
+        return new Controller\OtmController($em, $emCdiEntity, $grid, $entity);
     }
 
 }

@@ -8,7 +8,7 @@ $config = [
             "type" => "doctrine",
             "doctrineOptions" => [
                 "entityName" => "\CdiEntity\Entity\Controller",
-                "entityManager" => "Doctrine\ORM\EntityManager"
+                "entityManager" => "doctrine.entitymanager.orm_cdientity"
             ]
         ],
         "columnsConfig" => array(
@@ -34,7 +34,7 @@ $config = [
             "type" => "doctrine",
             "doctrineOptions" => [
                 "entityName" => "\CdiEntity\Entity\Menu",
-                "entityManager" => "Doctrine\ORM\EntityManager"
+                "entityManager" => "doctrine.entitymanager.orm_cdientity"
             ]
         ],
         "columnsConfig" => array(
@@ -63,7 +63,7 @@ $config = [
             "type" => "doctrine",
             "doctrineOptions" => [
                 "entityName" => "\CdiEntity\Entity\Namespaces",
-                "entityManager" => "Doctrine\ORM\EntityManager"
+                "entityManager" => "doctrine.entitymanager.orm_cdientity"
             ]
         ],
         "columnsConfig" => array(
@@ -89,6 +89,13 @@ $config = [
         )
     ],
     "cdiEntityEntity" => [
+          "sourceConfig" => [
+            "type" => "doctrine",
+            "doctrineOptions" => [
+                "entityName" => "\CdiEntity\Entity\Entity",
+                "entityManager" => "doctrine.entitymanager.orm_cdientity"
+            ]
+        ],
         "columnsConfig" => array(
             "createdAt" => [
                 "type" => "date",
@@ -121,6 +128,13 @@ $config = [
         )
     ],
     "cdiEntityProperty" => [
+          "sourceConfig" => [
+            "type" => "doctrine",
+            "doctrineOptions" => [
+                "entityName" => "\CdiEntity\Entity\Property",
+                "entityManager" => "doctrine.entitymanager.orm_cdientity"
+            ]
+        ],
         "columnsConfig" => array(
             "createdAt" => [
                 "type" => "date",

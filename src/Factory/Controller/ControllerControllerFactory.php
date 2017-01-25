@@ -15,7 +15,7 @@ class ControllerControllerFactory implements FactoryInterface {
 
         $codeGenerator = $container->get('cdientity_generate_entity');
 
-        $em = $container->get('Doctrine\ORM\EntityManager');
+        $em = $container->get('doctrine.entitymanager.orm_cdientity');
         return new Controller\ControllerController($em, $grid, $codeGenerator);
     }
 

@@ -22,7 +22,7 @@ class PropertyControllerFactory implements FactoryInterface {
 
 
 
-        $em = $container->get('Doctrine\ORM\EntityManager');
+        $em = $container->get('doctrine.entitymanager.orm_cdientity');
         return new Controller\PropertyController($em, $grid, $codeGenerator, $options);
     }
 

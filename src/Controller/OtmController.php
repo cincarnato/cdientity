@@ -11,6 +11,12 @@ class OtmController extends AbstractActionController {
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
+    
+    
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $emCdiEntity;
 
     /**
      * Description
@@ -37,13 +43,31 @@ class OtmController extends AbstractActionController {
     function setEm(\Doctrine\ORM\EntityManager $em) {
         $this->em = $em;
     }
+    
+    function getEmCdiEntity() {
+        return $this->emCdiEntity;
+    }
 
+    function getEntity() {
+        return $this->entity;
+    }
+
+    function setEmCdiEntity(\Doctrine\ORM\EntityManager $emCdiEntity) {
+        $this->emCdiEntity = $emCdiEntity;
+    }
+
+    function setEntity($entity) {
+        $this->entity = $entity;
+    }
+
+    
     function setGrid(\CdiDataGrid\Grid $grid) {
         $this->grid = $grid;
     }
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \CdiDataGrid\Grid $grid, $entity) {
+    function __construct(\Doctrine\ORM\EntityManager $em,\Doctrine\ORM\EntityManager $emCdiEntity, \CdiDataGrid\Grid $grid, $entity) {
         $this->em = $em;
+        $this->emCdiEntity = $emCdiEntity;
         $this->grid = $grid;
         $this->entity = $entity;
     }
@@ -62,7 +86,7 @@ class OtmController extends AbstractActionController {
         $entity = $this->entity;
 
 
-        $query = $this->getEm()->createQueryBuilder()
+        $query = $this->getEmCdiEntity()->createQueryBuilder()
                 ->select('u')
                 ->from('CdiEntity\Entity\Entity', 'u')
                 ->where("u.id = :id")

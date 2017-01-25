@@ -2,19 +2,53 @@
 
 namespace CdiEntity;
 
+
 $setting = array(
     'cdientity_options' => array(
         'script_update_schema' => '',
         'autoupdate' => false
     ),
     'doctrine' => array(
+        'connection' => array(
+            'orm_cdientity' => array(
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOSqlite\Driver',
+                'params' => array(
+                    'path' => __DIR__ . '/../../../../data/cdientity/cdientity.db',
+                )
+            )
+        ),
+        'entitymanager' => array(
+            'orm_cdientity' => array(
+                'connection' => 'orm_cdientity',
+                'configuration' => 'conf_cdientity'
+            ),
+        ),
+        'eventmanager' => array(
+            'orm_cdientity' => array(
+                'subscribers' => array(
+                    'Gedmo\Timestampable\TimestampableListener',
+                ),
+            ),
+        ),
+          'configuration' => array(
+            'conf_cdientity' => array(
+                'metadata_cache' => 'array',
+                'query_cache' => 'array',
+                'result_cache' => 'array',
+                'driver' => 'drv_cdientity', // This driver will be defined later
+                'generate_proxies' => true,
+                'proxy_dir' => 'data/DoctrineORMModule/Proxy',
+                'proxy_namespace' => 'DoctrineORMModule\Proxy',
+                'filters' => array()
+            )
+        ),
         'driver' => array(
-            // overriding zfc-user-doctrine-orm's config
             'cdientity_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'paths' => __DIR__ . '/../src/Entity',
+                'paths' => array(__DIR__ . '/../src/Entity')
             ),
-            'orm_default' => array(
+            'drv_cdientity' => array(
+                'class' => "Doctrine\ORM\Mapping\Driver\DriverChain",
                 'drivers' => array(
                     'CdiEntity\Entity' => 'cdientity_entity',
                 ),
@@ -213,7 +247,7 @@ $setting = array(
                 'ccontroller' => ['admin'],
                 'cmenu*' => ['admin'],
                 'cdi_entity_editor' => ['admin'],
-                    'cdi_entity_otm' => ['admin'],
+                'cdi_entity_otm' => ['admin'],
             ]
         ],
     ]

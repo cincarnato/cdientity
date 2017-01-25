@@ -11,6 +11,12 @@ class EditorController extends AbstractActionController {
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
+    
+    
+     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $emCdiEntity;
 
     /**
      * Description
@@ -41,11 +47,21 @@ class EditorController extends AbstractActionController {
     function setGrid(\CdiDataGrid\Grid $grid) {
         $this->grid = $grid;
     }
+    
+    function getEmCdiEntity() {
+        return $this->emCdiEntity;
+    }
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \CdiEntity\Service\Editor $editor, $entity) {
+    function setEmCdiEntity(\Doctrine\ORM\EntityManager $emCdiEntity) {
+        $this->emCdiEntity = $emCdiEntity;
+    }
+
+    
+    function __construct(\Doctrine\ORM\EntityManager $em,\Doctrine\ORM\EntityManager $emCdiEntity, \CdiEntity\Service\Editor $editor, $entity) {
         $this->em = $em;
         $this->editor = $editor;
         $this->entity = $entity;
+        $this->emCdiEntity = $emCdiEntity;
     }
 
     public function editorAction() {

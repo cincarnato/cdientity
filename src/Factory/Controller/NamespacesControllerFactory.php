@@ -14,7 +14,7 @@ class NamespacesControllerFactory implements FactoryInterface {
         $grid = $container->build("CdiDatagridDoctrine", ["customOptionsKey" => "cdiEntityNamespace"]);
       
         
-        $em = $container->get('Doctrine\ORM\EntityManager');
+        $em = $container->get('doctrine.entitymanager.orm_cdientity');
         return new \CdiEntity\Controller\NamespacesController($em, $grid);
     }
 
